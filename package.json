@@ -6,18 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/HeatherR206/myFlix.git"
-  },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/HeatherR206/myFlix/issues"
-  },
-  "homepage": "https://github.com/HeatherR206/myFlix#readme",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0"
   }
 }
