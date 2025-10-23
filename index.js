@@ -1,3 +1,6 @@
+const express = require('express');
+    morgan = require('morgan');
+
 let topMovies = [
   {
     title: 'Pride and Prejudice',   
@@ -36,9 +39,6 @@ topMovies.forEach((movie, index) => {
     movie.title = `${index + 1}. ${movie.title}`;
 });
 console.log(topMovies);
-
-const express = require('express');
-    morgan = require('morgan');
 
 const app = express();
 const port = 8080; 
