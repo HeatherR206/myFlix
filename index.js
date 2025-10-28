@@ -212,7 +212,7 @@ let movies = [
 ];
 
 app.get('/', (req, res) => {
-  res.send('Morgan test successful!');
+  res.send('Looking for myFlix? Add "/movies" to the end of the URL to get there');
 });
 
 // CREATE (add new user)
@@ -224,7 +224,7 @@ app.post('/users', (req, res) => {
         users.push(newUser);
         res.status(201).json(newUser)
     } else {
-        res.status(400).send('Users need a name!')
+        res.status(400).send('Users need a name to register')
     }
 })
 
@@ -239,7 +239,7 @@ app.put('/users/:id', (req, res) => {
         user.name = updatedUser.name;
         res.status(200).json(user);
     } else {
-        res.status(400).send('No such user')
+        res.status(400).send('No such user in database')
     }
 })
 
@@ -253,7 +253,7 @@ app.post('/users/:id/:movieTitle', (req, res) => {
         user.favoriteMovies.push(movieTitle);
         res.status(200).send(`${movieTitle} has been added to user ${id}'s array.`);
     } else {
-        res.status(400).send('No such user')
+        res.status(400).send('User ID and/or movie title not found in database')
     }
 })
 
@@ -267,7 +267,7 @@ app.delete('/users/:id/:movieTitle', (req, res) => {
         user.favoriteMovies = user.favoriteMovies.filter( title => title !== movieTitle);
         res.status(200).send(`${movieTitle} has been removed from user ${id}'s array.`);
     } else {
-        res.status(400).send('No such movie')
+        res.status(400).send('No such movie in database')
     }
 })
 
@@ -279,9 +279,9 @@ app.delete('/users/:id', (req, res) => {
 
     if (user) {
         users = users.filter( user => user.id != id );
-        res.status(200).send(`user ${id} has been deleted.`);
+        res.status(200).send(`User ${id} has been deleted from database`);
     } else {
-        res.status(400).send('User')
+        res.status(400).send('User was not deleted from database')
     }
 })
 
@@ -298,7 +298,7 @@ app.get('/movies/:title', (req, res) => {
     if (movie) {
         res.status(200).json(movie);
     } else {
-        res.status(400).send('No such movie!');
+        res.status(400).send('No such movie in database');
     }
 });
 
@@ -310,7 +310,7 @@ app.get('/movies/genre/:genreName', (req, res) => {
     if (genre) {
         res.status(200).json(genre);
     } else {
-        res.status(400).send('No such genre!');
+        res.status(400).send('No such genre in database');
     }
 });
 
@@ -322,7 +322,7 @@ app.get('/movies/directors/:directorName', (req, res) => {
     if (director) {
         res.status(200).json(director);
     } else {
-        res.status(400).send('No such director!');
+        res.status(400).send('No such director in database');
     }
 });
 
