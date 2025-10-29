@@ -1,30 +1,1187 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Documentation</title>
-</head>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f39e;&#xfe0f;  myFlix API DOCUMENTATION</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
-<body>
-    <h1>Documentation for the myFlix API</h1>
-    <p>The myFlix API allows developers to access and interact with the myFlix movie database programmatically.</p>
-    <p>
-        <h2>Essential Features</h2>
-   
-        <ul>
-            <li>Return a list of ALL movies to the user</li>
-            <li>Return data (description, genre, director, image URL, whether it’s featured or not) about a
-            single movie by title to the user</li>
-            <li>Return data about a genre (description) by name/title (e.g., “Thriller”)</li>
-            <li>Return data about a director (bio, birth year, death year) by name</li>
-            <li>Allow new users to register</li>
-            <li>Allow users to update their user info (username, password, email, date of birth)</li>
-            <li>Allow users to add a movie to their list of favorites</li>
-            <li>Allow users to remove a movie from their list of favorites</li>
-            <li>Allow existing users to deregister</li>
-        </ul>
-    </p>  
-    
-</body>
-</html>
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <!-- API Documentation --> 
+<h1 id="️--myflix-api-documentation">🎞️  myFlix API DOCUMENTATION</h1>
+<p>A web service for human users to search for and save information about movies.</p>
+<h2 id="overview">OVERVIEW</h2>
+<p>The myFlix API is a <a href="https://restfulapi.net/"><strong>REST API</strong></a> and requires HTTP methods (<code>GET</code>, <code>POST</code>, <code>PUT</code>, and <code>DELETE</code>) to perform all requests on available resources and to return a response to the user.</p>
+<br>
+<blockquote>
+<p>🗒️ <strong>NOTE!</strong> All request and response bodies are encoded using syntax for either <strong>standard JSON</strong> or <strong>JSON Schema</strong>.</p>
+</blockquote>
+<br>
+<h2 id="getting-started">GETTING STARTED</h2>
+<p>The myFlix API was built with JavaScript/Node.js and Express and works best within a Node.js runtime environment.</p>
+<h3 id="-base-url-dev-only">🔗 BASE URL (dev only)</h3>
+<p><code>http://localhost:8080/movies</code></p>
+<br>
+<h3 id="installing-node-packages">INSTALLING NODE PACKAGES</h3>
+<p>myFlix API executes with the following Node packages:</p>
+<ul>
+<li>Express</li>
+<li>Morgan logging middleware</li>
+<li>Body-Parser middleware</li>
+<li>UUIDv4</li>
+</ul>
+<br>
+<blockquote>
+<p>⭐️ <strong>Tip:</strong> Directions for installing the Node packages are separated by system CLI commands and importing them via your IDE. But, you may find using your IDE's Terminal to install Node packages to be more convenient and efficient.</p>
+</blockquote>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.15em;">Install Node packages via your system CLI</span></strong>  
+  </summary>
+  <br>
+<p><strong>To install packages to your project's root folder:</strong></p>
+<ol>
+<li>
+<p>If necessary, read up on <a href="https://www.npmjs.com/"><strong>npm</strong></a>, Node's default package manager.</p>
+</li>
+<li>
+<p>Open your computer's Command Line Interface (CLI)/Terminal.</p>
+</li>
+<li>
+<p>Navigate to the your project directory.</p>
+</li>
+<li>
+<p>Type the command: <code>npm install --save express morgan uuid body-parser</code></p>
+</li>
+</ol>
+<br>
+<br>
+<p><strong>(Optional) Check if the package installs were successful:</strong></p>
+<ol>
+<li>
+<p>To display the JSON data for your install, type the command: <code>cat package.json</code></p>
+</li>
+<li>
+<p>Look for the &quot;dependencies&quot; property. If &quot;express&quot;, &quot;morgan&quot;, &quot;body-parser&quot;, and &quot;uuid&quot; are listed, you're golden!</p>
+</li>
+</ol>
+<pre><code class="language-json">
+<span class="hljs-attr">&quot;dependencies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;express&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^5.1.0&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;morgan&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^1.10.1&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;body-parser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^2.2.0&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;uuid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^13.0.0&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.15em;">Install Node packages via your IDE</span></strong>
+  </summary>
+<br>
+<p>If you haven't already done so, create a main JavaScript file (i.e. &quot;server.js&quot;).
+This is where you will use the <code>require()</code> function to import the packages needed to run your app.</p>
+<br>
+<p><strong>To import the packages:</strong></p>
+<p>1. In your IDE, open the "package.json" file. Under "dependencies", you should see the necessary packages listed. 
+<pre><code class="language-json">
+<span class="hljs-attr">&quot;dependencies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;express&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^5.1.0&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;morgan&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^1.10.1&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;body-parser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^2.2.0&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;uuid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^13.0.0&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+
+</code></pre>
+<p>2. Open your main JavaScript file and enter the following codeblock at the top:</p>
+<pre><code>
+const express = require('express'),
+    morgan = require('morgan'),
+    app = express(),
+    bodyParser = require('body-parser'),
+    uuid = require('uuid'),
+
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<h3 id="api-testing-tools">API TESTING TOOLS</h3>
+<p>Testing your URL endpoints is critical to developing a quality API. You will need to choose an <strong>HTTP Client Tool</strong> that can pinpoint errors in your API development. A few examples include <a href="https://www.thunderclient.com/"><strong>Thunder Client</strong></a>, <a href="https://curl.se/docs/manpage.html"><strong>cURL</strong></a>, <a href="https://smartbear.com/product/ready-api/"><strong>ReadyAPI</strong></a>, and <a href="https://www.postman.com/"><strong>Postman</strong></a>.</p>
+<p>These tools will also be necessary to <strong>format data bodies</strong> for your HTTP requests (especially for <code>POST</code>), and responses (almost all).</p>
+<br>
+<h2 id="http-methods">HTTP METHODS</h2>
+<p>The myFlix API code gives users access to movie data via endpoints. When a client makes a request on a resource(s), the endpoints and HTTP methods direct the request to the appopriate back-end function, which is typically executed by a CRUD operation (<strong>C</strong>REATE, <strong>R</strong>EAD, <strong>U</strong>PDATE, and <strong>D</strong>ELETE) on the database.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP REQUEST METHOD</th>
+<th>CRUD OPERATION</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td>CREATE</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td>READ</td>
+</tr>
+<tr>
+<td><code>PUT</code> or <code>PATCH</code></td>
+<td>UPDATE</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>DELETE</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h3 id="http-requests">HTTP REQUESTS</h3>
+<p>HTTP Requests will follow Express syntax: <code>app.METHOD(PATH, HANDLER)</code><br>
+For example:  <code>app.get('/movies', [handler]);</code> will handle a request to the URL endpoint “/movies&quot; with the HTTP request method <code>GET</code></p>
+<br>
+<blockquote>
+<p>🗒️ <strong>NOTE!</strong> The example requests and status code responses in this section use <em>standard JSON syntax</em>.<br>
+Refer to the <strong>HTTP Responses</strong> section to view <em>OpenAPI/JSON Schema</em> syntax.</p>
+</blockquote>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>POST</code> Register a new user</span></strong>
+  </summary>
+  <br>
+<p><strong>Endpoint:</strong> <code>/users</code><br>
+<strong>CRUD Operation:</strong> CREATE<br>
+<strong>Authentification:</strong> Required</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name <br><br> favoriteMovies</td>
+<td></td>
+<td>string <br><br> array</td>
+<td></td>
+<td>A JSON object <br> holding data about <br> the new user to register</td>
+<td></td>
+<td>A JSON object holding data <br> about the new registered <br> user, including an ID</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>POST</code></strong> <strong>REQUEST BODY FORMAT</strong><br>
+<em>The myFlix API will expect the request body data to be formatted IN JSON as:</em></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane Doe&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<p><strong><code>POST</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/users&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> newUser = req.<span class="hljs-property">body</span>;
+
+    <span class="hljs-keyword">if</span> (newUser.<span class="hljs-property">name</span>) {
+        newUser.<span class="hljs-property">id</span> = uuid.<span class="hljs-title function_">v4</span>();
+        users.<span class="hljs-title function_">push</span>(newUser);
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">201</span>).<span class="hljs-title function_">json</span>(newUser)
+    } <span class="hljs-keyword">else</span> {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Users need a name to register&#x27;</span>)
+    }
+})
+
+</code></pre>
+<br>
+<p><strong><code>201 Created</code></strong> <strong>RESPONSE BODY FORMAT</strong><br>
+<em>A unique ID is generated for new users by calling the utility <code>uuid.v4()</code> function in your code.</em></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane Doe&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;69dbffa7-b0d1-4f96-9a27-43a0e2d9368d&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<br>
+<p><strong><code>400 Bad Request</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: &quot;Users need a name&quot; }
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>POST</code> Add a movie to "Favorite Movies" list</span></strong>
+  </summary>
+<br>
+<p><strong>Endpoint:</strong> <code>/users/:id/:movieTitle</code> (for example: &quot;/users/2/The%20Croods&quot;)<br>
+<strong>CRUD Operation:</strong> CREATE<br>
+<strong>Authentification:</strong> Required</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id <br> <br> movieTitle</td>
+<td></td>
+<td>number, integer <br><br> array, string</td>
+<td></td>
+<td>A JSON object <br> holding data about <br> the movie to add</td>
+<td></td>
+<td>A text-based message <br> indicating whether the <br> movie was successfully added</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>POST</code></strong> <strong>REQUEST BODY FORMAT</strong><br>
+<em>The myFlix API will expect the request body data to be formatted in JSON as:</em></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Daphne&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;Pride and Prejudice&quot;</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<p><strong><code>POST</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/users/:id/:movieTitle&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { id, movieTitle } = req.<span class="hljs-property">params</span>;    
+
+    <span class="hljs-keyword">let</span> user = users.<span class="hljs-title function_">find</span>( <span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> user.<span class="hljs-property">id</span> == id );
+
+    <span class="hljs-keyword">if</span> (user) {
+        user.<span class="hljs-property">favoriteMovies</span>.<span class="hljs-title function_">push</span>(movieTitle);
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">`<span class="hljs-subst">${movieTitle}</span> has been added to user <span class="hljs-subst">${id}</span>&#x27;s array.`</span>);
+    } <span class="hljs-keyword">else</span> {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;User ID and/or movie title not found in database&#x27;</span>)
+    }
+})
+
+</code></pre>
+<br>
+<p><strong><code>200 OK</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: '${movieTitle}$ has been added to user ${ID}'s array' }
+
+Example: { message: &quot;Pride and Prejudice has been added to user 1's array.&quot; }
+</code></pre>
+<br>
+<p><strong><code>400 Bad Request</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: &quot;No data was found for user ID and/or movie title.&quot; }
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>GET</code> Get a list of all movies</span></strong>
+  </summary>
+<br>
+<p><strong>Endpoint:</strong> <code>/movies</code><br>
+<strong>CRUD Operation:</strong> READ<br>
+<strong>Authentification:</strong> none</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>none</td>
+<td></td>
+<td>object, string</td>
+<td></td>
+<td>None</td>
+<td></td>
+<td>A JSON object holding data about all the movies</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>GET</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+    app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/movies&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(movies);
+});
+
+</code></pre>
+<br>
+<p><strong><code>200 OK</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code class="language-js">[
+    {
+    <span class="hljs-string">&quot;Title&quot;</span>: <span class="hljs-string">&quot;Movie One Title&quot;</span>,
+    <span class="hljs-string">&quot;Description&quot;</span>: <span class="hljs-string">&quot;A concise description of the first movie.&quot;</span>,
+    <span class="hljs-string">&quot;Genre&quot;</span>: {
+      <span class="hljs-string">&quot;Name&quot;</span>: <span class="hljs-string">&quot;Thriller&quot;</span>,
+      <span class="hljs-string">&quot;Definition&quot;</span>: <span class="hljs-string">&quot;A film designed to elicit intense feelings of excitement, suspense, anxiety, and anticipation.&quot;</span>
+    },
+    <span class="hljs-string">&quot;Director&quot;</span>: {
+      <span class="hljs-string">&quot;Name&quot;</span>: <span class="hljs-string">&quot;John Smith&quot;</span>,
+      <span class="hljs-string">&quot;Bio&quot;</span>: <span class="hljs-string">&quot;Brief director bio.&quot;</span>,
+      <span class="hljs-string">&quot;Birth&quot;</span>: <span class="hljs-string">&quot;1970-05-15&quot;</span>,
+      <span class="hljs-string">&quot;Death&quot;</span>: <span class="hljs-string">&quot;N/A&quot;</span>
+    },
+    <span class="hljs-string">&quot;ReleaseDate&quot;</span>: <span class="hljs-string">&quot;2023-01-01&quot;</span>,
+    <span class="hljs-string">&quot;Featured&quot;</span>: <span class="hljs-literal">true</span>
+    },
+
+    {
+    <span class="hljs-string">&quot;Title&quot;</span>: <span class="hljs-string">&quot;Movie Two Title&quot;</span>,
+    <span class="hljs-string">&quot;Description&quot;</span>: <span class="hljs-string">&quot;A brief summary of the second movie.&quot;</span>,
+    <span class="hljs-string">&quot;Genre&quot;</span>: {
+      <span class="hljs-string">&quot;Name&quot;</span>: <span class="hljs-string">&quot;Comedy&quot;</span>,
+      <span class="hljs-string">&quot;Definition&quot;</span>: <span class="hljs-string">&quot;A genre of film in which the main emphasis is on humor.&quot;</span>
+    },
+    <span class="hljs-string">&quot;Director&quot;</span>: {
+      <span class="hljs-string">&quot;Name&quot;</span>: <span class="hljs-string">&quot;Jane Doe&quot;</span>,
+      <span class="hljs-string">&quot;Bio&quot;</span>: <span class="hljs-string">&quot;Brief director bio.&quot;</span>,
+      <span class="hljs-string">&quot;Birth&quot;</span>: <span class="hljs-string">&quot;1985-11-20&quot;</span>,
+      <span class="hljs-string">&quot;Death&quot;</span>: <span class="hljs-string">&quot;N/A&quot;</span>
+    },
+    <span class="hljs-string">&quot;ReleaseDate&quot;</span>: <span class="hljs-string">&quot;2024-03-10&quot;</span>,
+    <span class="hljs-string">&quot;Featured&quot;</span>: <span class="hljs-literal">false</span>
+    }
+]
+
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>GET</code> Get data about a single movie by title</span></strong>
+  </summary>
+<br>
+<p><strong>Endpoint:</strong> <code>/movies/:title</code> (for example, &quot;/movies/Die%20Hard&quot;)<br>
+<strong>CRUD Operation:</strong> READ<br>
+<strong>Authentification:</strong> none</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>object, string</td>
+<td>none</td>
+<td>A JSON object holding data about a single movie <br> <em>See</em> <code>200, 400</code> <em>Responses</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>GET</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/movies/:title&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { title } = req.<span class="hljs-property">params</span>;
+    <span class="hljs-keyword">const</span> movie = movies.<span class="hljs-title function_">find</span>( <span class="hljs-function"><span class="hljs-params">movie</span> =&gt;</span> movie.<span class="hljs-property">Title</span> === title );
+  
+    <span class="hljs-keyword">if</span> (movie) {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(movie);
+    } <span class="hljs-keyword">else</span> {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;No such movie in database&#x27;</span>);
+    }
+});
+
+</code></pre>
+<br>
+<p><strong><code>200 OK</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Movie One Title&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A concise description of the first movie.&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Genre&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Thriller&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Definition&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A film designed to elicit intense feelings of excitement, suspense, anxiety, and anticipation.&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Director&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;John Smith&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Brief director bio.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Birth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1970-05-15&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Death&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;N/A&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;ReleaseDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2023-01-01&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Featured&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+
+</code></pre>
+<br>
+<p><strong><code>400 Bad Request</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: '${movieTitle}$ has been added to user ${ID}'s array' }
+
+Example: { message: &quot;Die Hard has been added to user 1's array.&quot; }
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>GET</code> Get data about a movie genre</span></strong>
+  </summary>
+<br>
+<p><strong>Endpoint:</strong> <code>/movies/genre/:genreName</code> (for example, &quot;/movies/genre/Drama&quot;)<br>
+<strong>CRUD Operation:</strong> READ<br>
+<strong>Authentification:</strong> none</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>genreName</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td>none</td>
+<td></td>
+<td>A JSON object holding data about a movie genre, including the genre definition</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>GET</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/movies/genre/:genreName&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { genreName } = req.<span class="hljs-property">params</span>;
+    <span class="hljs-keyword">const</span> genre = movies.<span class="hljs-title function_">find</span>( <span class="hljs-function"><span class="hljs-params">movie</span> =&gt;</span> movie.<span class="hljs-property">Genre</span>.<span class="hljs-property">Name</span> === genreName ).<span class="hljs-property">Genre</span>;
+  
+    <span class="hljs-keyword">if</span> (genre) {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(genre);
+    } <span class="hljs-keyword">else</span> {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;No such genre in database&#x27;</span>);
+    }
+});
+
+</code></pre>
+<br>
+<p><strong><code>200 OK</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code class="language-json">
+<span class="hljs-attr">&quot;Genre&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Action&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Definition&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Films characterized by high-energy, rapid pacing, and frequent spectacles, often involving combat, extended chases, and stunts.&quot;</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<br>
+<p><strong><code>400 Bad Request</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: &quot;No such genre in database&quot; }
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>GET</code> Get data about a director by name</span></strong>
+  </summary>
+<br>
+<p><strong>Endpoint:</strong> <code>/movies/directors/:directorName</code> (for example, &quot;/movies/directors/Rob%20Reiner&quot;)<br>
+<strong>CRUD Operation:</strong> READ<br>
+<strong>Authentification:</strong> none</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>directorName</td>
+<td></td>
+<td>string</td>
+<td></td>
+<td>none</td>
+<td></td>
+<td>A JSON object holding data about a movie director</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>GET</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/movies/directors/:directorName&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { directorName } = req.<span class="hljs-property">params</span>;
+    <span class="hljs-keyword">const</span> director = movies.<span class="hljs-title function_">find</span>( <span class="hljs-function"><span class="hljs-params">movie</span> =&gt;</span> movie.<span class="hljs-property">Director</span>.<span class="hljs-property">Name</span> === directorName ).<span class="hljs-property">Director</span>;
+  
+    <span class="hljs-keyword">if</span> (director) {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(director);
+    } <span class="hljs-keyword">else</span> {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;No such director in database&#x27;</span>);
+    }
+});
+
+</code></pre>
+<br>
+<p><strong><code>200 OK</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code class="language-json">
+<span class="hljs-attr">&quot;Director&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane Doe&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief biography of the director.&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Birth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;January 1, 1980&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;Death&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;N/A&quot;</span>
+<span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+
+</code></pre>
+<br>
+<p><strong><code>400 Bad Request</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: &quot;No such director in database&quot; }
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>PUT</code> Update a registered user's info</span></strong>
+  </summary>
+<br>
+<p><strong>Endpoint:</strong> <code>/users/:id</code> (for example, &quot;/users/2&quot;)<br>
+<strong>CRUD Operation:</strong> UPDATE<br>
+<strong>Authentification:</strong> Required</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td></td>
+<td>number, string</td>
+<td></td>
+<td>A JSON object holding data about the registered user to update</td>
+<td></td>
+<td>A JSON object holding data about the update to the registered user's info</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>PUT</code></strong> <strong>REQUEST BODY FORMAT</strong><br>
+<em>The myFlix API will expect the request body data to be formatted in JSON as:</em></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">18</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane Doe-Smith&quot;</span> <span class="hljs-comment">// Updated text in &quot;name&quot; string</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<br>
+<p><strong><code>PUT</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+app.<span class="hljs-title function_">put</span>(<span class="hljs-string">&#x27;/users/:id&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { id } = req.<span class="hljs-property">params</span>;    
+    <span class="hljs-keyword">const</span> updatedUser = req.<span class="hljs-property">body</span>;
+
+    <span class="hljs-keyword">let</span> user = users.<span class="hljs-title function_">find</span>( <span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> user.<span class="hljs-property">id</span> == id );
+
+    <span class="hljs-keyword">if</span> (user) {
+        user.<span class="hljs-property">name</span> = updatedUser.<span class="hljs-property">name</span>;
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(user);
+    } <span class="hljs-keyword">else</span> {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;No such user in database&#x27;</span>)
+    }
+})
+
+</code></pre>
+<br>
+<p><strong><code>200 OK</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">42</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane Doe-Smith&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// Text in &quot;name&quot; string is updated based on request body format </span>
+    <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-string">&quot;Movie Title 1&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">&quot;Movie Title 2&quot;</span>
+    <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<pre><code>=== updated info in proper body response ===
+</code></pre>
+<br>
+<p><strong><code>400 Bad Request</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: 'No such user in database' }
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>DELETE</code> Remove a registered user from database</span></strong>
+  </summary>
+<br>
+<p><strong>Endpoint:</strong> <code>/users/:id</code> (for example, &quot;/users/2&quot;)<br>
+<strong>CRUD Operation:</strong> DELETE<br>
+<strong>Authentification:</strong> Required</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td></td>
+<td>number, string</td>
+<td></td>
+<td>none</td>
+<td></td>
+<td>A text-based message indicating whether the registered user was removed from the database</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>DELETE</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+app.<span class="hljs-title function_">delete</span>(<span class="hljs-string">&#x27;/users/:id&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { id } = req.<span class="hljs-property">params</span>;    
+
+    <span class="hljs-keyword">let</span> user = users.<span class="hljs-title function_">find</span>( <span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> user.<span class="hljs-property">id</span> == id );
+
+    <span class="hljs-keyword">if</span> (user) {
+        users = users.<span class="hljs-title function_">filter</span>( <span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> user.<span class="hljs-property">id</span> != id );
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">`User <span class="hljs-subst">${id}</span> has been deleted from database`</span>);
+    } <span class="hljs-keyword">else</span> {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;User was not found in database to delete&#x27;</span>)
+    }
+})
+
+</code></pre>
+<br>
+<p><strong><code>200 OK</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: 'User ${id} has been deleted from database' }
+
+Example: { message: &quot;User 3 has been deleted from database&quot; }
+</code></pre>
+<br>
+<p><strong><code>400 Bad Request</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: &quot;User was not found in database to delete&quot; }
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;"><code>DELETE</code> Remove a movie from "Favorite Movies" list</span></strong>
+  </summary>
+<br>
+<p><strong>Endpoint:</strong> <code>/users/:id/:movieTitle</code> (for example, &quot;/users/2/Pride%20and%20Prejudice&quot;)<br>
+<strong>CRUD Operation:</strong> DELETE<br>
+<strong>Authentification:</strong> Required</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+<th>Type</th>
+<th></th>
+<th>Request Body Format</th>
+<th></th>
+<th>Response Body Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code> <br><br> <code>movieTitle</code></td>
+<td></td>
+<td>number, string <br><br> string</td>
+<td></td>
+<td>none</td>
+<td></td>
+<td>A text-based message indicating whether the movie was removed from &quot;Favorite Movies&quot; array</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong><code>DELETE</code></strong> <strong>REQUEST JAVASCRIPT</strong></p>
+<pre><code class="language-js">
+app.<span class="hljs-title function_">delete</span>(<span class="hljs-string">&#x27;/users/:id/:movieTitle&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { id, movieTitle } = req.<span class="hljs-property">params</span>;    
+
+    <span class="hljs-keyword">let</span> user = users.<span class="hljs-title function_">find</span>( <span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> user.<span class="hljs-property">id</span> == id );
+
+    <span class="hljs-keyword">if</span> (user) {
+        user.<span class="hljs-property">favoriteMovies</span> = user.<span class="hljs-property">favoriteMovies</span>.<span class="hljs-title function_">filter</span>( <span class="hljs-function"><span class="hljs-params">title</span> =&gt;</span> title !== movieTitle);
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">`<span class="hljs-subst">${movieTitle}</span> has been removed from user <span class="hljs-subst">${id}</span>&#x27;s array.`</span>);
+    } <span class="hljs-keyword">else</span> {
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">400</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;User ID and/or movie title not found in database&#x27;</span>)
+    }
+})
+
+</code></pre>
+<br>
+<p><strong><code>200 OK</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: '${movieTitle} has been removed from user ${id}'s array.' }
+
+Example: { message: &quot;Pride and Prejudice has been removed from user 1's array.&quot; }
+</code></pre>
+<br>
+<p><strong><code>400 Bad Request</code></strong> <strong>RESPONSE BODY FORMAT</strong></p>
+<pre><code>{ message: &quot;User ID and/or movie title not found in database&quot; }
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<br>
+<h3 id="http-responses">HTTP RESPONSES</h3>
+<p>The following HTTP response examples use <strong>OpenAPI (formerly Swagger)/ JSON Schema</strong> to provide more flexibility, data specificity, and machine readability. One caveat is that it's a more complex method to initially set up. A simpler alternative is <strong>Standardized JSON</strong> syntax, which is used for the <code>PUT</code> and <code>POST</code> request bodies in the previous section.</p>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;">User Data</span></strong>
+    </summary>
+    <br>   
+<p><strong>JSON Schema for New User data</strong></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;User&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Represents a user in the application.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;int64&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// new user ID generated by uuid.v4() in HTTP request</span>
+            <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The unique identifier for the user.&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The full name of the user.&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;array&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A list of the user&#x27;s favorite movie titles.&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;items&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
+            <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-string">&quot;id&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">&quot;name&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">&quot;favoriteMovies&quot;</span>
+        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;example&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">42</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane Doe&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+            <span class="hljs-string">&quot;Movie Title 1&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-string">&quot;Movie Title 2&quot;</span>
+        <span class="hljs-punctuation">]</span>
+        <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+
+</code></pre>
+<br>
+<p><strong>JSON Schema for Updated User data</strong></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;integer&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;int64&quot;</span><span class="hljs-punctuation">,</span> 
+      <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Unique identifier for the resource&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// Text in &quot;name&quot; string is updated based on request body format</span>
+      <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Full name of the person&quot;</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-string">&quot;id&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;name&quot;</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;example&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">18</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane Doe-Smith&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;">Movie, Genre, Director Data</span></strong>
+    </summary>
+    <br>
+<p><strong>JSON Schema for Movie data</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;Title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The full title of the movie.&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A short summary of the plot.&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Genre&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;$ref&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;#/components/schemas/Genre&quot;</span> <span class="hljs-comment">// Reference to a reusable schema</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Director&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;$ref&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;#/components/schemas/Director&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;ReleaseDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;date&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The primary release date of the movie.&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Featured&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;boolean&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Indicates if the movie is currently being featured.&quot;</span>
+        <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;example&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;Title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Example Movie Title&quot;</span><span class="hljs-punctuation">,</span> 
+        <span class="hljs-attr">&quot;Description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief summary...&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;Featured&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>
+    <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<br>
+<p><strong>JSON Schema for Genre data</strong></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Genre&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The name of the movie genre (e.g., &#x27;Romance&#x27;).&quot;</span>
+            <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;Definition&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief explanation of the genre.&quot;</span>
+            <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;Name&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Definition&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<br>
+<p><strong>JSON Schema for Director data</strong></p>
+<pre><code class="language-json">
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Director&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The director&#x27;s full name.&quot;</span>
+            <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;Bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief biography of the director.&quot;</span>
+            <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;Birth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;date&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The director&#x27;s date of birth.&quot;</span>
+            <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;Death&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+                <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;date&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The director&#x27;s date of death, or &#x27;Not Deceased&#x27;.&quot;</span>
+            <span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;Name&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Bio&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.3em;">HTTP STATUS CODES</span></strong>
+    <br>
+<p>The HTTP status codes provide high-level feedback about the outcome of client requests, as well as helping in debugging and handling errors successfully. All responses from the myFlix API will contain a status code.</p>
+</summary>
+<br>
+<h3 id="-success-codes">✅ Success Codes</h3>
+<p>Successful responses will return JSON data or a text-based message describing the transaction, and one of the following status codes:</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>200 OK</code></td>
+<td>Request was successful <br> <code>{ message: &quot;User 2 has been deleted from database&quot; }</code></td>
+</tr>
+<tr>
+<td><code>201 Created</code></td>
+<td>New resource was successfully created</td>
+</tr>
+</tbody>
+</table>
+<br>
+<h3 id="️-error-codes">⚠️ Error Codes</h3>
+<p>Error responses will display a text-based message and one of the following status codes:</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>400 Bad Request</code></td>
+<td>An error indicating the server does not understand the request due to a client-side error.</td>
+<td><code>{ message: &quot;No such movie exists in database&quot; }</code></td>
+</tr>
+<tr>
+<td><code>404 Not Found</code></td>
+<td>An error indicating the server cannot find the requested resource</td>
+<td><code>{ message: &quot;Sorry, that endpoint doesn't exist.&quot; }</code></td>
+</tr>
+<tr>
+<td><code>500 Internal Server Error</code></td>
+<td>A generic error indicating the server has encountered a situation it cannot handle</td>
+<td><code>{ message: &quot;Uh-oh! Something broke&quot; }</code></td>
+</tr>
+</tbody>
+</table>
+<br>
+<hr>
+</details>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
