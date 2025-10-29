@@ -13,12 +13,18 @@ let users = [
     {
         id: 1,
         name: "Daphne",
-        favoriteMovies: []
+        favoriteMovies: [
+            "Pride and Prejudice",
+            "The Scent of Green Papaya"
+        ]
     },
     {
         id: 2,
         name: "Darwin",
-        favoriteMovies: ["The Croods"]
+        favoriteMovies: [
+            "The Croods",
+            "Finding Nemo"
+        ]
     },
 ]
 
@@ -265,9 +271,9 @@ app.delete('/users/:id/:movieTitle', (req, res) => {
 
     if (user) {
         user.favoriteMovies = user.favoriteMovies.filter( title => title !== movieTitle);
-        res.status(200).send(`${movieTitle} has been removed from user ${id}'s array.`);
+        res.status(200).send(`${movieTitle} has been removed from user ${id}'s array`);
     } else {
-        res.status(400).send('No such movie in database')
+        res.status(400).send('User ID and/or movie title not found in database')
     }
 })
 
@@ -281,7 +287,7 @@ app.delete('/users/:id', (req, res) => {
         users = users.filter( user => user.id != id );
         res.status(200).send(`User ${id} has been deleted from database`);
     } else {
-        res.status(400).send('User was not deleted from database')
+        res.status(400).send('User was not found in database to delete')
     }
 })
 
@@ -290,7 +296,7 @@ app.get('/movies', (req, res) => {
   res.status(200).json(movies);
 });
 
-//READ (get data about a single movie by title)
+// READ (get data about a single movie by title)
 app.get('/movies/:title', (req, res) => {
     const { title } = req.params;
     const movie = movies.find( movie => movie.Title === title );
@@ -302,7 +308,7 @@ app.get('/movies/:title', (req, res) => {
     }
 });
 
-// //READ (get data about a genre)
+// READ (get data about a genre)
 app.get('/movies/genre/:genreName', (req, res) => {
     const { genreName } = req.params;
     const genre = movies.find( movie => movie.Genre.Name === genreName ).Genre;
@@ -314,7 +320,7 @@ app.get('/movies/genre/:genreName', (req, res) => {
     }
 });
 
-// //READ (get data about a director by name)
+// READ (get data about a director by name)
 app.get('/movies/directors/:directorName', (req, res) => {
     const { directorName } = req.params;
     const director = movies.find( movie => movie.Director.Name === directorName ).Director;
