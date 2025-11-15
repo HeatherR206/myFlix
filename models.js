@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
 
 const genreSchema = new Schema({
@@ -139,22 +140,26 @@ const userSchema = new Schema({
     username: {
         type: String,
         required: true,
+        unique: true,
         minlength: 6,
         trim: true,
-        unique: true
     },
     email: {
         type: String,
         required: true,
+        unique: true,
         trim: true,
         lowercase: true,
-        match: [
-            /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
-            'Please enter a valid email address.'
-        ]
+        validate: {
+            validator: (v) => {
+                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+            },
+            message: props => `${props.value} is not a valid email address.`
+        }
     },
     password: {
         type: String,
+        required: true,
         minlength: 10
     },
     first_name: {
@@ -175,6 +180,20 @@ const userSchema = new Schema({
         default: []
      }
 });
+
+userSchema.pre('save', async function(next) {
+    const user = this;
+    if (user.isModified('password')) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);    
+    }
+    next();
+});
+
+userSchema.methods.comparePassword = function(candidatePassword) {
+    return bcrypt.compare(candidatePassword, this.password);
+};
+
 
 let Movie = mongoose.model('Movie', movieSchema); 
 let User = mongoose.model('User', userSchema);
