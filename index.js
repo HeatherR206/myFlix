@@ -65,7 +65,9 @@ app.post('/users', async (req, res) => {
 app.post('/users/:username/movies/:movieId', async (req, res) => {
     try {   
         const userName = req.params.username;
-        const movieId = req.params.movieId;
+        let movieId = req.params.movieId;
+        
+        movieId = new mongoose.Types.ObjectId(movieId);
         
         let updatedUser = await Users.findOneAndUpdate(
             { username: userName },

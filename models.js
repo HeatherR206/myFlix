@@ -25,9 +25,12 @@ const actorSchema = new Schema({
         type: String,
         validate: {
             validator: function(v) {
-                return /^\d{4}$/.test(v) || !isNaN(new Date(v));
+                const yearOnly = /^\d{4}$/.test(v);
+                const fullDate = /^\d{4}-\d{2}-\d{2}$/.test(v);
+                
+                return yearOnly || (fullDate && !isNaN(new Date(v))); 
             },
-            message: props => `${props.value} is not a valid year or date string`
+            message: props => `${props.value} must be in YYYY or YYYY-MM-DD format.`
         },
         required: true
     },
@@ -35,17 +38,18 @@ const actorSchema = new Schema({
         type: Date,
         validate: {
             validator: function(v){
-                if (v) {
-                    const birthDate = new Date(this.birth_date);
-                    if (isNaN(birthDate.getTime())) { 
-                        return true;
-                    }
-                    return v.getTime() >= birthDate.getTime();
+                if (!v) {
+                    return true;
                 }
-                return true;    
-            },
-            message: 'Death date must be after the birth date.'
-        }  
+                const birthDate = new Date(this.birth_date);
+
+                if (isNaN(birthDate.valueOf())) { 
+                    return true;
+                }
+                return v >= birthDate;
+            }                  
+        },
+            message: 'Death date must be after the birth date.'  
     },
 }, { _id: false });
 
@@ -61,9 +65,12 @@ const directorSchema = new Schema({
         type: String,
         validate: {
             validator: function(v) {
-                return /^\d{4}$/.test(v) || !isNaN(new Date(v));
+                const yearOnly = /^\d{4}$/.test(v);
+                const fullDate = /^\d{4}-\d{2}-\d{2}$/.test(v);
+                
+                return yearOnly || (fullDate && !isNaN(new Date(v))); 
             },
-            message: props => `${props.value} is not a valid year or date string`
+            message: props => `${props.value} must be in YYYY or YYYY-MM-DD format.`
         },
         required: true
     },
@@ -71,14 +78,15 @@ const directorSchema = new Schema({
         type: Date,
         validate: {
             validator: function(v){
-                if (v) {
-                    const birthDate = new Date(this.birth_date);
-                    if (isNaN(birthDate.getTime())) { 
-                        return true;
-                    }
-                    return v.getTime() >= birthDate.getTime();
+                if (!v) {
+                    return true;
                 }
-                return true;    
+                const birthDate = new Date(this.birth_date);
+
+                if (isNaN(birthDate.valueOf())) { 
+                    return true;
+                }
+                return v >= birthDate;  
             },
             message: 'Death date must be after the birth date.'
         }  
@@ -168,10 +176,11 @@ const userSchema = new Schema({
     last_name: {
         type: String
     },
+
     birth_date: {
         type: Date,
-        required: true
     },
+
     favorite_movies: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,
