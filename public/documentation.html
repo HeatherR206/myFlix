@@ -142,25 +142,26 @@
             <!-- API Documentation --> 
 <h1 id="️--myflix-api-documentation">🎞️  myFlix API DOCUMENTATION</h1>
 <p>A web service for human users to search for and save information about movies.</p>
-<h2 id="overview">OVERVIEW</h2>
-<p>The myFlix API is a <a href="https://restfulapi.net/"><strong>REST API</strong></a> and requires HTTP methods (<code>GET</code>, <code>POST</code>, <code>PUT</code>, and <code>DELETE</code>) to perform all requests on available resources and to return a response to the user.</p>
+<h2 id="overview">OVERVIEW & ARCHITECTURE</h2>
+<p>The myFlix API is a <a href="https://restfulapi.net/"><strong>RESTful API</strong></a> built with <strong>JavaScript/Node.js</strong> and the <strong>Express</strong> framework. It uses standard <strong>HTTP methods</strong> (<code>GET</code>, <code>POST</code>, <code>PUT</code>, and <code>DELETE</code>) to perform <strong>CRUD</strong> (<code>Create</code>, <code>Read</code>, <code>Update</code>, and <code>Delete</code>)operations on the available resources (endpoints) and returns a <strong>JSON</strong> response to the client.</p>
+<p>Unlike "in-memory" data storage, which is temporary, this API uses <strong>MongoDB Community Server</strong> as its persistent <strong>NoSQL database</strong>. <strong>Mongoose</strong>, an <strong>Object Data Modeling (ODM)</strong> library, is used to interact with MongoDB, providing a structured, schema-based solution to model the application data.</p>
 <br>
 <blockquote>
 <p>🗒️ <strong>NOTE!</strong> All request and response bodies are encoded using syntax for either <strong>standard JSON</strong> or <strong>JSON Schema</strong>.</p>
 </blockquote>
 <br>
 <h2 id="getting-started">GETTING STARTED</h2>
-<p>The myFlix API was built with JavaScript/Node.js and Express and works best within a Node.js runtime environment.</p>
-<h3 id="-base-url-dev-only">🔗 BASE URL (dev only)</h3>
-<p><code>http://localhost:8080/movies</code></p>
+<p>The myFlix API runs best within a <strong>Node.js runtime environment</strong>.</p>
+<h3 id="-base-url-dev-only">🔗 BASE URL (Development)</h3>
+<p>The root URL for all API endpoints is: <code>http://localhost:8080/movies</code></p>
 <br>
 <h3 id="installing-node-packages">INSTALLING NODE PACKAGES</h3>
 <p>myFlix API executes with the following Node packages:</p>
 <ul>
 <li>Express</li>
+<li>Mongoose</li>
 <li>Morgan logging middleware</li>
 <li>Body-Parser middleware</li>
-<li>UUIDv4</li>
 </ul>
 <br>
 <blockquote>
