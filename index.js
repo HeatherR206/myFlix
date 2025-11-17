@@ -25,7 +25,7 @@ app.get('/', async (req, res) => {
   res.send('Welcome to myFlix, a database for movie enthusiasts!');
 });
 
-// CREATE (add new user)
+// CREATE (add new User)
 /* Expect JSON in this format 
 {
     username: String,
@@ -61,7 +61,7 @@ app.post('/users', async (req, res) => {
     }
 });
 
-// CREATE (add movie a user's "Favorite Movies")
+// CREATE (add movie a User's "Favorite Movies")
 app.post('/users/:username/movies/:movieId', async (req, res) => {
     try {   
         const userName = req.params.username;
@@ -76,18 +76,18 @@ app.post('/users/:username/movies/:movieId', async (req, res) => {
         );
 
         if (!updatedUser) {
-            return res.status(404).send(`Error: User "${userName}" not found in database.`);
+            return res.status(404).send(`Error: User ${userName} not found in database.`);
         } 
 
         res.status(201).json(updatedUser);
     
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error: ' + error);
+        res.status(500).send('Error adding movie: ' + error);
     }
 });
 
-// READ (Get all users)
+// READ (Get all Users)
 app.get('/users', async (req, res) => {
     try {
         let users = await Users.find();
@@ -99,7 +99,7 @@ app.get('/users', async (req, res) => {
     }
 });
 
-// READ (Get user by username)
+// READ (Get User by username)
 app.get('/users/:username', async (req, res) => { 
     try {
         let user = await Users.findOne({ username: req.params.username });
@@ -116,7 +116,7 @@ app.get('/users/:username', async (req, res) => {
     }
 });
 
-// READ (Get all movies)
+// READ (Get all Movies)
 app.get('/movies', async (req, res) => {
     try {
         let movies = await Movies.find();
@@ -124,11 +124,11 @@ app.get('/movies', async (req, res) => {
     
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error: ' + error);
+        res.status(500).send('Error retrieving movies: ' + error);
     }
 });
 
-// READ (Get a movie by title)
+// READ (Get a Movie by title)
 app.get('/movies/:title', async (req, res) => { 
     try {
         let movie = await Movies.findOne({ title: req.params.title });
@@ -136,11 +136,11 @@ app.get('/movies/:title', async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error: ' + error);
+        res.status(500).send('Error retrieving Movie: ' + error);
     }
 });
 
-// READ (Get a list of movies by genre)
+// READ (Get Movies by Genre)
 app.get('/genres/:genreName', async (req, res) => { 
     try {
         const genreFilter = req.params.genreName;
@@ -148,7 +148,7 @@ app.get('/genres/:genreName', async (req, res) => {
         let movies = await Movies.find({ 'genres.genre_name': genreFilter });
         
         if (!movies || movies.length === 0) {
-            return res.status(404).send(`Error: no movies found in the database assigned with the genre: ${genreFilter}`);
+            return res.status(404).send(`Error: no Movies found in the database matching the Genre: ${genreFilter}`);
         }
 
         res.status(200).json(movies);    
@@ -159,7 +159,7 @@ app.get('/genres/:genreName', async (req, res) => {
     }
 });
 
-// READ (Get data about a director by name)
+// READ (Get a Director by name)
 app.get('/directors/:directorName', async (req, res) => { 
     try {
         const directorName = req.params.directorName;
@@ -167,7 +167,7 @@ app.get('/directors/:directorName', async (req, res) => {
         let movie = await Movies.findOne({ 'directors.director_name': directorName });
                
         if (!movie) {
-            return res.status(404).send(`Error: no data in the database for this director: ${directorName}`);
+            return res.status(404).send(`Error: no data in the database for this Director: ${directorName}`);
         }
         
         const directorDetails = movie.directors.find(
@@ -186,7 +186,7 @@ app.get('/directors/:directorName', async (req, res) => {
     }
 });
 
-// UPDATE (Update a user by username)
+// UPDATE (Update a User account by username)
 app.put('/users/:username', async (req, res) => {
     try {
         let oldUsername = req.params.username;
@@ -222,7 +222,7 @@ app.put('/users/:username', async (req, res) => {
     }
 });
 
-// DELETE (Remove movie from "Favorite Movies")
+// DELETE (Remove Movie from "Favorite Movies")
 app.delete('/users/:username/movies/:movieId', async (req, res) => {
     try {
         const userName = req.params.username;
@@ -235,10 +235,10 @@ app.delete('/users/:username/movies/:movieId', async (req, res) => {
         );
 
         if (!updatedUser) {
-            return res.status(404).send(`Error: User "${userName}" not found in database.`);
+            return res.status(404).send(`Error: User ${userName} not found in database.`);
         }   
 
-        res.status(200).send(`Movie ID ${movieId} was removed from ${userName}'s favorite movies.`);
+        res.status(200).send(`Movie ID "${movieId}" was removed from ${userName}'s "Favorite Movies" array.`);
 
     } catch (error) {
         console.error(error);
@@ -246,7 +246,7 @@ app.delete('/users/:username/movies/:movieId', async (req, res) => {
     }
 });
 
-// DELETE (Remove a user by username)
+// DELETE (Remove a User by username)
 app.delete('/users/:username', async (req, res) => {
     try {
         let user = await Users.findOneAndDelete({ username: req.params.username });        
