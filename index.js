@@ -16,7 +16,8 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, 
         console.error('MongoDB connection error: ', error);
     });
 
-app.use(morgan('common'));    
+app.use(morgan('common'));
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
   
@@ -140,18 +141,26 @@ app.get('/movies/:title', async (req, res) => {
     }
 });
 
-// READ (Get Movies by Genre)
+// READ (Get Genre by name)
 app.get('/genres/:genreName', async (req, res) => { 
     try {
-        const genreFilter = req.params.genreName;
+        const genreName = req.params.genreName;
         
-        let movies = await Movies.find({ 'genres.genre_name': genreFilter });
+        let movie = await Movies.findOne({ 'genres.genre_name': genreName });
         
-        if (!movies || movies.length === 0) {
-            return res.status(404).send(`Error: no Movies found in the database matching the Genre: ${genreFilter}`);
+        if (!movie) {
+            return res.status(404).send(`Error: no data found in the database for this Genre: ${genreName}`);
         }
 
-        res.status(200).json(movies);    
+        const genreDetails = movie.genres.find(
+            g => g.genre_name === genreName
+        );
+
+        if (!genreDetails) {
+            return res.status(404).send('Error: Genre data could not be extracted from the database.`);
+        }
+
+        res.status(200).json(genreDetails);    
     
     } catch (error) {
         console.error(error);
@@ -261,6 +270,11 @@ app.delete('/users/:username', async (req, res) => {
         console.error(error);
         res.status(500).send('Error: ' + error);
     }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });
 
 const port = 8080;
