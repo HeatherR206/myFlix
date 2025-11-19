@@ -1,4 +1,5 @@
-const express = require('express'),
+const path = require('path'),
+    express = require('express'),
     morgan = require('morgan'),
     mongoose = require('mongoose'),
     models = require('./models.js');
@@ -17,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, 
     });
 
 app.use(morgan('common'));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
   
@@ -27,16 +28,6 @@ app.get('/', async (req, res) => {
 });
 
 // CREATE (add new User)
-/* Expect JSON in this format 
-{
-    username: String,
-    email: String,
-    password: String,
-    first_name: String,
-    last_name: String,
-    birth_date: Date,
-    favorite_movies: [mongoose.Schema.Types.ObjectId]
-}*/
 app.post('/users', async (req, res) => {
     try {
         let user = await Users.findOne({ username: req.body.username });
@@ -157,7 +148,7 @@ app.get('/genres/:genreName', async (req, res) => {
         );
 
         if (!genreDetails) {
-            return res.status(404).send('Error: Genre data could not be extracted from the database.`);
+            return res.status(404).send('Error: Genre data could not be extracted from the database.')
         }
 
         res.status(200).json(genreDetails);    

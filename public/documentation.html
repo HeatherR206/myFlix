@@ -143,20 +143,22 @@
 <h1 id="️--myflix-api-documentation">🎞️  myFlix API DOCUMENTATION</h1>
 <p>A web service for human users to search for and save information about movies.</p>
 <br>
-<h2 id="overview--architecture"><strong>OVERVIEW &amp; ARCHITECTURE</strong></h2>
+<h2 id="-overview--architecture">🌈 <strong>OVERVIEW &amp; ARCHITECTURE</strong></h2>
 <hr>
 <p>The myFlix API is a <a href="https://restfulapi.net/"><strong>RESTful API</strong></a> built with <strong>JavaScript/Node.js</strong> and the Express framework. It uses standard <strong>HTTP methods</strong> (<code>GET</code>, <code>POST</code>, <code>PUT</code>, and <code>DELETE</code>) to perform <strong>CRUD</strong> (<code>Create</code>, <code>Read</code>, <code>Update</code>, and <code>Delete</code>) operations on the available resources (endpoints) and returns a <strong>JSON</strong> response to the client.</p>
 <p>Unlike &quot;in-memory&quot; data storage, which is temporary, this API uses <strong>MongoDB Community Server</strong> as its persistent <strong>NoSQL database</strong>. <strong>Mongoose</strong>, an <strong>Object Data Modeling (ODM)</strong> library, is used to interact with MongoDB, providing a structured, schema-based solution to model the application data.</p>
 <br>
-<h2 id="getting-started"><strong>GETTING STARTED</strong></h2>
+<h2 id="-getting-started">🎬 <strong>GETTING STARTED</strong></h2>
 <hr>
 <p>The myFlix API runs best within a <strong>Node.js runtime environment</strong>.</p>
-<h3 id="base-url-development"><strong>Base URL (Development)</strong></h3>
+<br>
+<h3 id="-base-url-development">🔗 <strong>Base URL (Development)</strong></h3>
 <p>The root URL for all API endpoints is: <code>http://localhost:8080/movies</code></p>
 <br>
+<h3 id="-database-setup-using-mongodb">📀 <strong>Database Setup using MongoDB</strong></h3>
 <details>
   <summary>
-    <strong><span style="font-size: 1.2em;">Database Setup: MongoDB Community Server</span></strong>
+    <strong><span style="font-size: 1.15em;">Installing MongoDB Community Server</span></strong>
 <p>You will need to install and run the <strong>MongoDB Community Server</strong> locally (e.g., your system Terminal). This service manages your database and makes it available for a connection with myFlix API.
 </summary>
 <br></p>
@@ -180,7 +182,7 @@
 <p><strong>Stop MongoDB</strong>:</p>
 <pre><code>brew services stop mongoDB-community
 </code></pre>
-<p>The default connection port is <code>27017</code>.</p>
+<p>The default connection port is <code>**27017**</code>.</p>
 </li>
 </ol>
 <br>
@@ -191,17 +193,17 @@
 <hr>
 </details>
 <br>
-<h3 id="node-packages--dependencies"><strong>Node Packages &amp; Dependencies</strong></h3>
+<h3 id="-node-packages--dependencies">📦 <strong>Node Packages &amp; Dependencies</strong></h3>
 <p>myFlix API executes with the following <strong>Node dependencies</strong>:</p>
 <br>
 <table>
 <thead>
 <tr>
-<th>PACKAGE</th>
+<th>Package</th>
 <th></th>
-<th>PURPOSE</th>
+<th>Purpose</th>
 <th></th>
-<th>JARGON</th>
+<th>Explanation</th>
 </tr>
 </thead>
 <tbody>
@@ -213,13 +215,6 @@
 <td>Routing and Middleware</td>
 </tr>
 <tr>
-<td><strong>Mongoose</strong></td>
-<td></td>
-<td>Provides structure (schemas) and tools for MongoDB interaction</td>
-<td></td>
-<td>Object Data Modeling (ODM)</td>
-</tr>
-<tr>
 <td><strong>Morgan</strong></td>
 <td></td>
 <td>Logs HTTP requests to the console</td>
@@ -227,7 +222,14 @@
 <td>Logging Middleware</td>
 </tr>
 <tr>
-<td><strong>Body-Parser</strong></td>
+<td><strong>Mongoose</strong></td>
+<td></td>
+<td>Provides structure (schemas) and tools for MongoDB interaction</td>
+<td></td>
+<td>Object Data Modeling (ODM)</td>
+</tr>
+<tr>
+<td><strong>Body-Parser</strong> (optional)</td>
 <td></td>
 <td>Parses incoming request bodies in a middleware before your handlers</td>
 <td></td>
@@ -246,6 +248,7 @@
 <details>
   <summary>
     <strong><span style="font-size: 1.2em;">Installing Node Packages</span></strong>
+    <br>
 <p>You may find it helpful to read up on <a href="https://www.npmjs.com/"><strong>npm</strong></a>, Node's default package manager. You will use your system <strong>CLI</strong> (Command Line Interface) or <strong>IDE</strong> Terminal for Node package installations.</p>
 <br>
 <blockquote>
@@ -292,15 +295,129 @@
 <br>
 <details>
   <summary>
-    <strong><span style="font-size: 1.2em;">Importing Node Packages to App</span></strong>
-<p>You will use the <code>require()</code> function to import the installed dependencies. In your main application file (e.g., <code>index.js</code> or <code>server.js</code>), enter the following codeblock at the top:</p>
+    <strong><span style="font-size: 1.2em;">Importing Node Dependencies to App</span></strong>
+    <br>
+<p>To build this Node.js application, you'll use the built-in <code>require()</code> function (ES6 <code>import</code> syntax) to load modules into the app's memory. This process is called <strong>importing dependencies</strong> (or <strong>modules</strong>).</p>
   </summary>  
+<p>In your main application file (e.g., <code>index.js</code> or <code>server.js</code>), you should place all intialization <code>require()</code> statements at the very top.</p>
+<br>
+<p><strong>Example: Initialization Statements</strong></p>
 <pre><code class="language-js">
-    <span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>),
-        morgan = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;morgan&#x27;</span>),
-        mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;mongoose&#x27;</span>), <span class="hljs-comment">// New: Required for DB connection/modeling</span>
-        app = <span class="hljs-title function_">express</span>(),
-        bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;body-parser&#x27;</span>);
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>), <span class="hljs-comment">// Provides an absolute path to the public directory for client requests</span>
+    express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>),
+    morgan = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;morgan&#x27;</span>),
+    mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;mongoose&#x27;</span>), <span class="hljs-comment">// For connecting to MongoDB and defining schemas</span>
+    bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;body-parser&#x27;</span>);
+
+<span class="hljs-comment">// Initialize the Express application</span>
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
+
+<span class="hljs-comment">// Reference the Mongoose models</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Movies</span> = models.<span class="hljs-property">Movie</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">Users</span> = models.<span class="hljs-property">User</span>;
+
+<span class="hljs-comment">// ... Mongoose connection code follows here</span>
+
+</code></pre>
+<br>
+<hr>
+</details>
+<br>
+<details>
+  <summary>
+    <strong><span style="font-size: 1.2em;">Express Middleware Execution Structure</span></strong>   
+<br>
+<p><strong>Middleware</strong> are functions that Express executes sequentially when a request is made to the server. They have access to the request (<code>req</code>), the response (<code>res</code>), and the next middleware function in the stack (<code>next</code>).</p>
+<p>Proper ordering of the <strong>Middleware Stack</strong> is crucial because each function processes the request before passing it on.</p>
+  </summary>  
+  <br> 
+<p><strong>Express middleware should be ordered as follows for server-side execution:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Middleware/Purpose</th>
+<th></th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>Logging</strong> (<code>morgan</code>)</td>
+<td></td>
+<td>Logs the request details immediately upon receipt</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>Static Files</strong> (<code>express.static</code>)</td>
+<td></td>
+<td><strong>Crucial</strong>: Checks for static assets (HTML, CSS, images). If found, the request is served and process ends</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>Body Parsing</strong> (<code>express.json()</code>, <code>express.urlencoded()</code>)</td>
+<td></td>
+<td>Processes request bodies (e.g., JSON from a <code>POST</code> request) so route handlers can read <code>req.body</code></td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>Authentification/Session</strong> (if applicable)</td>
+<td></td>
+<td>Verifies user identity before any route logic executes</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>Route Handlers</strong> (<code>app.get</code>, <code>app.post</code>, etc.)</td>
+<td></td>
+<td>Specific functions executing the business logic (e.g., querying the database)</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><strong>Error-Handling Middleware</strong> (<code>app.use((err, req, res, next)</code>)</td>
+<td></td>
+<td>A special function defined with four arguments to catch final errors in application</td>
+</tr>
+<tr>
+<td><br></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>At the end of the <strong>Middleware Stack</strong> is the <strong>Server Startup</strong> (<code>app.listen()</code>), an Express method that starts the <strong>HTTP server</strong>.</p>
+<br>
+<p><strong>Example: Middleware Stack</strong></p>
+<pre><code class="language-js">
+<span class="hljs-comment">// ... initialization statements</span>
+
+<span class="hljs-comment">// 1. Logging</span>
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title function_">morgan</span>(<span class="hljs-string">&#x27;common&#x27;</span>)); 
+
+<span class="hljs-number">1.</span> <span class="hljs-title class_">Static</span> files (uses path.<span class="hljs-property">join</span> <span class="hljs-keyword">for</span> reliability)        
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">static</span>(path.<span class="hljs-title function_">join</span>(__dir<span class="hljs-string">&quot;public&quot;</span>))); <span class="hljs-comment">// </span>
+
+<span class="hljs-comment">// 3. JSON body parsing</span>
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">json</span>());           
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">urlencoded</span>({ <span class="hljs-attr">extended</span>: <span class="hljs-literal">true</span> })); 
+
+<span class="hljs-comment">// ... Authentification middleware might go here</span>
+
+<span class="hljs-comment">// ... Route handlers follow here</span>
+
+<span class="hljs-comment">// Error-Handling Middleware</span>
+app.<span class="hljs-title function_">use</span>(<span class="hljs-function">(<span class="hljs-params">err, req, res, next</span>) =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(err.<span class="hljs-property">stack</span>);
+  res.<span class="hljs-title function_">status</span>(<span class="hljs-number">500</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;Something broke!&quot;</span>);
+});
+
+<span class="hljs-comment">// Server/Port Listener</span>
+<span class="hljs-keyword">const</span> port = <span class="hljs-number">8080</span>;
+
+app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8080</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`myFlix app is listening at http://localhost:<span class="hljs-subst">${port}</span>`</span>);
+});
 
 </code></pre>
 <br>
@@ -308,11 +425,13 @@
 </details>
 <br>
 <br>
-<h2 id="mongoose-data-modeling-schema"><strong>MONGOOSE DATA MODELING SCHEMA</strong></h2>
+<h2 id="-mongoose-data-modeling-schema">🪜 <strong>MONGOOSE DATA MODELING SCHEMA</strong></h2>
 <hr>
 <p>The API's data structure is defined by <strong>Mongoose Schemas</strong>. These schemas enforce the structure and validation rules for documents stored in your MongoDB <strong>collections</strong> (the NoSQL equivalent of tables). The schema defines the <strong>fields</strong>, their <strong>data types</strong>, and any validation/default rules.</p>
-<h3 id="mongoose-connection-code"><strong>Mongoose Connection Code</strong></h3>
+<br>
+<h3 id="️-mongoose-connection-code">🖇️ <strong>Mongoose Connection Code</strong></h3>
 <p>Before defining your application <strong>routes</strong>, you must connect to the MongoDB server on the default port 27017, using Mongoose:</p>
+<br>
 <pre><code class="language-js">
     mongoose.<span class="hljs-title function_">connect</span>(<span class="hljs-string">&#x27;mongodb://localhost:27017/myFlixDB&#x27;</span>, {
         <span class="hljs-attr">useNewURLParser</span>: <span class="hljs-literal">true</span>,
@@ -320,8 +439,8 @@
     });
 
 </code></pre>
-<hr>
-<h3 id="mongoose-schema"><strong>Mongoose Schema</strong></h3>
+<br>
+<h3 id="-mongoose-schema">🪜 <strong>Mongoose Schema</strong></h3>
 <p>The following <strong>JavaScript</strong> codeblocks show the <strong>Mongoose Schemas</strong> for both the <code>Movie</code> and <code>User</code> resources. These schemas collectively define the required structure and validation rules for Movie documents in the <code>movies</code> collection and User documents in the <code>users</code> collection.</p>
 <br>
 <blockquote>
@@ -330,9 +449,12 @@
 <br>
 <details>
   <summary>
-    <strong><span style="font-size: 1.1em;">Setup Code, Schema for Referenced Movie Objects</span></strong>
+    <strong><span style="font-size: 1.1em;">Initialization, Embedded Sub-Schemas</span></strong>
     </summary>
+    <br>
+<p><strong>Example: Sub-Schemas (Genre, Actor, Director)</strong></p>
 <pre><code class="language-js">
+<span class="hljs-comment">// Initialization statements</span>
 <span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;mongoose&#x27;</span>);
 <span class="hljs-keyword">const</span> bcrypt = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;bcrypt&#x27;</span>); <span class="hljs-comment">// to hash passwords</span>
 <span class="hljs-keyword">const</span> { <span class="hljs-title class_">Schema</span> } = mongoose;
@@ -440,6 +562,8 @@
   <summary>
     <strong><span style="font-size: 1.1em;">Mongoose Movie Schema</span></strong>
     </summary>
+    <br>
+<p><strong>Example: Movie Schema</strong></p>
 <pre><code class="language-js">
 <span class="hljs-comment">// Embedded movie schema with references to schema for Genres, Actors, and Directors</span>
 <span class="hljs-keyword">const</span> movieSchema = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Schema</span>({
@@ -501,7 +625,8 @@
 <details>
   <summary>
     <strong><span style="font-size: 1.1em;">Mongoose User Schema</span></strong>
-</summary> 
+</summary> <br>
+<p><strong>Example: User Schema</strong></p>
 <pre><code class="language-js">
 <span class="hljs-comment">// Mongoose userSchema</span>
 <span class="hljs-keyword">const</span> userSchema = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Schema</span>({
@@ -572,7 +697,9 @@ userSchema.<span class="hljs-property">methods</span>.<span class="hljs-property
 <details>
   <summary>
     <strong><span style="font-size: 1.1em;">Mongoose Models</span></strong>
-</summary>   
+</summary> 
+<br>  
+<p><strong>Example: Mongoose Models</strong></p>
 <pre><code class="language-js">
 <span class="hljs-comment">// Create Mongoose Models from Schemas</span>
 <span class="hljs-keyword">let</span> <span class="hljs-title class_">Movie</span> = mongoose.<span class="hljs-title function_">model</span>(<span class="hljs-string">&#x27;Movie&#x27;</span>, movieSchema); 
@@ -586,7 +713,7 @@ userSchema.<span class="hljs-property">methods</span>.<span class="hljs-property
 </details>
 <br>
 <br>
-<h2 id="api-testing-tools"><strong>API TESTING TOOLS</strong></h2>
+<h2 id="-api-testing-tools">✅ <strong>API TESTING TOOLS</strong></h2>
 <hr>
 <p>Testing your URL endpoints is critical to developing a quality API. You will need an <strong>HTTP Client Tool</strong> to test your requests (e.g., <a href="https://www.thunderclient.com/"><strong>Thunder Client</strong></a>, <a href="https://curl.se/docs/manpage.html"><strong>cURL</strong></a>, <a href="https://smartbear.com/product/ready-api/"><strong>ReadyAPI</strong></a>, <a href="https://www.postman.com/"><strong>Postman</strong></a>).</p>
 <p>These tools are necessary for:</p>
@@ -595,16 +722,16 @@ userSchema.<span class="hljs-property">methods</span>.<span class="hljs-property
 <li>formatting <strong>request bodies</strong> (especially for <code>POST</code> and <code>PUT</code> requests) as <strong>JSON</strong> data, which is essential for sending new or updated data to the server.</li>
 </ul>
 <br>
-<h2 id="http-requests-with-mongoosemongodb"><strong>HTTP REQUESTS WITH MONGOOSE/MONGODB</strong></h2>
+<h2 id="-http-requests-with-mongoosemongodb">💡 <strong>HTTP REQUESTS WITH MONGOOSE/MONGODB</strong></h2>
 <hr>
 <p>The myFlix API uses <strong>RESTful endpoints</strong> to provide movie data access. <strong>HTTP methods</strong> (<strong>GET</strong>, <strong>POST</strong>, <strong>PUT</strong>, <strong>DELETE</strong>) direct client requests to the corresponding back-end function, which executes a <strong>CRUD</strong> (<strong>Create</strong>, <strong>Read</strong>, <strong>Update</strong>, <strong>Delete</strong>) operation on the database using <strong>Mongoose Models</strong> (<code>User</code> and <code>Movie</code>). All request handling follows <strong>Express</strong> routing syntax: <code>app.METHOD(PATH, HANDLER)</code>.</p>
 <p><strong>Example</strong>: <code>app.get('/movies', async (req, res) =&gt; { ... });</code></p>
-<br>
+<br>  
 <table>
 <thead>
 <tr>
-<th>HTTP REQUEST METHOD</th>
-<th>CRUD OPERATION</th>
+<th>HTTP Request</th>
+<th>CRUD Operation</th>
 </tr>
 </thead>
 <tbody>
@@ -1257,8 +1384,8 @@ Details the specific fields returned</p>
 <br>
 <details>
   <summary>
-    <strong><span style="font-size: 1.25em;"><code>GET : Get Movies by Genre</code></span></strong>
-<p>This endpoint finds any Movie containing the Genre name provided in the URL path.
+    <strong><span style="font-size: 1.25em;"><code>GET : Get Genre data by Genre name</code></span></strong>
+<p>This endpoint finds the matching Genre name and returns only the embedded Genre object details.
 <br></p>
 <p><strong>Endpoint:</strong> <code>/genres/:genreName</code>.<br>
 <strong>Example:</strong> /genres/Animated<br>
@@ -1296,33 +1423,48 @@ The required parameter is passed via the URL path. No request body is required.<
 </tbody>
 </table>
 <p><strong>2. <code>GET</code> Request JavaScript</strong>
-This logic uses the Mongoose <code>Movies.find()</code> method to retrieve Movies matching the <code>genre_name</code>.</p>
+This logic uses the Mongoose <code>Movies.find()</code> method to retrieve and isolate a Genre object that matches the <code>genre_name</code>.</p>
 <pre><code class="language-js">
 app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/genres/:genreName&#x27;</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; { 
     <span class="hljs-keyword">try</span> {
-        <span class="hljs-keyword">const</span> genreFilter = req.<span class="hljs-property">params</span>.<span class="hljs-property">genreName</span>;
+        <span class="hljs-keyword">const</span> genreName = req.<span class="hljs-property">params</span>.<span class="hljs-property">genreName</span>;
         
-        <span class="hljs-keyword">let</span> movies = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Movies</span>.<span class="hljs-title function_">find</span>({ <span class="hljs-string">&#x27;genres.genre_name&#x27;</span>: genreFilter });
+        <span class="hljs-comment">// 1. Find ONE movie document that contains the matching genre name in its &#x27;genres&#x27; array</span>
+        <span class="hljs-keyword">let</span> movie = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Movies</span>.<span class="hljs-title function_">findOne</span>({ <span class="hljs-string">&#x27;genres.genre_name&#x27;</span>: genreName });
         
-        <span class="hljs-keyword">if</span> (!movies || movies.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) {
-            <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">`Error: no Movies found in the database matching the Genre: <span class="hljs-subst">${genreFilter}</span>`</span>);
+        <span class="hljs-keyword">if</span> (!movie) {
+            <span class="hljs-comment">// No movie document was found at all with this genre</span>
+            <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">`Error: no data found in the database for this Genre: <span class="hljs-subst">${genreName}</span>`</span>);
         }
 
-        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(movies);    
+        <span class="hljs-comment">// 2. Search the &#x27;genres&#x27; array of the found movie document for the specific genre object</span>
+        <span class="hljs-keyword">const</span> genreDetails = movie.<span class="hljs-property">genres</span>.<span class="hljs-title function_">find</span>(
+            <span class="hljs-function"><span class="hljs-params">g</span> =&gt;</span> g.<span class="hljs-property">genre_name</span> === genreName
+        );
+
+        <span class="hljs-keyword">if</span> (!genreDetails) {
+            <span class="hljs-comment">// This check is technically redundant if the findOne worked, </span>
+            <span class="hljs-comment">// but it serves as a good safeguard.</span>
+            <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Error: Genre data could not be extracted from the database.&#x27;</span>);
+        }
+
+        <span class="hljs-comment">// 3. Respond with only the genre object (genre_name and genre_description)</span>
+        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(genreDetails);    
     
     } <span class="hljs-keyword">catch</span> (error) {
         <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error);
         res.<span class="hljs-title function_">status</span>(<span class="hljs-number">500</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Error: &#x27;</span> + error.<span class="hljs-property">message</span>);
     }
 });
+
 </code></pre>
 <br>
 <p><strong>3. <code>GET</code> Response Status Code and Output</strong></p>
 <p><strong><code>200 OK</code> Response Body</strong><br>
-The server returns an array of Movies matching the specified Genre name.</p>
+The server returns data about the specified Genre name .</p>
 <br>
 <p><strong>Response Body Fields Table</strong><br>
-Standard specified fields and data types returned for any Movie document.</p>
+Standard specified fields and data types returned for an embedded Genre object.</p>
 <table>
 <thead>
 <tr>
@@ -1333,9 +1475,14 @@ Standard specified fields and data types returned for any Movie document.</p>
 </thead>
 <tbody>
 <tr>
-<td><em>(All fields)</em></td>
-<td></td>
-<td>All Movie document fields</td>
+<td><strong>genre_name</strong></td>
+<td>string</td>
+<td>The Genre name matching the query</td>
+</tr>
+<tr>
+<td><strong>genre_description</strong></td>
+<td>string</td>
+<td>A concise description of the Genre</td>
 </tr>
 <tr>
 <td><br></td>
@@ -1346,47 +1493,15 @@ Standard specified fields and data types returned for any Movie document.</p>
 </table>
 <p><strong><code>GET</code> Response JSON Example</strong></p>
 <pre><code class="language-json">
-<span class="hljs-punctuation">[</span>
-    <span class="hljs-punctuation">{</span>
-        <span class="hljs-attr">&quot;_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;65561b8dc9510166299d6d3e&quot;</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Movie One Title&quot;</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;summary&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A concise summary of the first movie&quot;</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;genres&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-            <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Comedy&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Comedy film genre is designed to be humorous or amusing, intending to induce laughter. It usually features lighthearted plots and ends happily.&quot;</span>
-            <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Family&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Family film genre is aimed at audiences of all ages, often focusing on themes of childhood, home, and love.&quot;</span>
-            <span class="hljs-punctuation">}</span>
-        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;actors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-            <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;actor_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Joe Talent&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;actor_bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1979-12-08&quot;</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>  
-            <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;actor_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Beth Smith&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;actor_bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1963-04-12&quot;</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-punctuation">}</span>
-        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;directors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-            <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;director_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Peter Doe&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief director bio&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1973-11-09&quot;</span><span class="hljs-punctuation">,</span> 
-            <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;release_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2022-01-25&quot;</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;image_path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;movietitle.png&quot;</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;featured&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>/<span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;__v&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span>
-    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-comment">// More movie documents matching specified `genreName`</span>
-<span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;genres&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Comedy&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Comedy film genre is designed to be humorous or amusing, intending to induce laughter. It usually features lighthearted plots and ends happily.&quot;</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+
+<span class="hljs-punctuation">}</span>
+
 </code></pre>
 <br>
 <p><strong><code>404 Not Found</code> Response JSON Example</strong></p>
@@ -1468,7 +1583,7 @@ app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x2
 <br>
 <p><strong>3. <code>GET</code> Response Status Code and Output</strong></p>
 <p><strong><code>200 OK</code> Response Body</strong><br>
-The server returns specific Director object.</p>
+The server returns the specific Director object.</p>
 <br>
 <p><strong>Response Body Fields Table</strong><br>
 Explains the fields and data types returned</p>
@@ -1946,7 +2061,7 @@ Details on the updated <code>favorite_movies</code> array</p>
 <hr>
 </details>
 <br>
-<h2 id="global-http-responses"><strong>GLOBAL HTTP RESPONSES</strong></h2>
+<h2 id="-global-http-responses">🌏 <strong>GLOBAL HTTP RESPONSES</strong></h2>
 <hr>
 <br>
 <details>
@@ -1955,6 +2070,7 @@ Details on the updated <code>favorite_movies</code> array</p>
 <p>The HTTP status codes provide high-level feedback about the outcome of client requests, as well as helping in debugging and handling errors successfully. All responses from the myFlix API will contain a status code.</p>
 </summary>
 <br>
+<p><strong>HTTP Status Code Table</strong></p>
 <table>
 <thead>
 <tr>
@@ -2017,7 +2133,7 @@ Details on the updated <code>favorite_movies</code> array</p>
 </tr>
 </tbody>
 </table>
-<h3 id="example-standard-error-format"><strong>Example Standard Error Format:</strong></h3>
+<h3 id="️-example-standard-error-format">⚠️ <strong>Example Standard Error Format:</strong></h3>
 <pre><code class="language-json">
 <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">400</span><span class="hljs-punctuation">,</span>
@@ -2034,7 +2150,7 @@ Details on the updated <code>favorite_movies</code> array</p>
 <hr>
 </details>
 <br>
-<h3 id="global-json-schema-definitions"><strong>Global JSON Schema Definitions</strong></h3>
+<h3 id="-global-json-schema-definitions">🪜 <strong>Global JSON Schema Definitions</strong></h3>
 <p>The following JSON Schemas define the structure of data sent to and received from the myFlix API. These models are derived from the Mongoose Schemas used to define the users and movies MongoDB collections.</p>
 <br>
 <details>
@@ -2042,7 +2158,8 @@ Details on the updated <code>favorite_movies</code> array</p>
     <strong><span style="font-size: 1.2em;">1. User Document Schema (Collection: users)</span></strong>
     <br>
     This defines the structure of a complete User resource.
-    </summary>   
+    </summary><br>
+<p><strong>Example: User Document Schema (MongoDB)</strong></p>
 <pre><code class="language-json">
 <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;User&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
@@ -2111,8 +2228,9 @@ This defines the structure of a complete Movie resource.
 <blockquote>
 <p>❗️ <strong>Note:</strong> The <code>actors</code>, <code>directors</code>, and <code>genres</code> fields reference the sub-schemas defined below, demonstrating the embedded nature of the data.</p>
 </blockquote>
+</summary>
 <br>
-</summary>   
+<p><strong>Example: Movie Document Schema (MongoDB)</strong></p>
 <pre><code class="language-json">
 <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;Movie&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
@@ -2181,13 +2299,15 @@ This defines the structure of a complete Movie resource.
 <br>
 <hr>
 </details>
-<h3 id="3-embedded-sub-schemas-actor-director-genre"><strong>3. Embedded Sub-Schemas (Actor, Director, Genre)</strong></h3>
+<h3 id="-3-embedded-sub-schemas-actor-director-genre">🪜 <strong>3. Embedded Sub-Schemas (Actor, Director, Genre)</strong></h3>
 <p>These schemas define the structure of the objects nested within the Movie document.</p>
+<br>
 <details>
   <summary>
     <strong><span style="font-size: 1.2em;">Genre Sub-Schema</span></strong>
     <br>  
-    </summary>  
+    </summary>   
+<p><strong>Example: Genre Sub-Schema (MongoDB)</strong></p>
 <pre><code class="language-json">
 <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;Genre&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
@@ -2216,7 +2336,8 @@ This defines the structure of a complete Movie resource.
 <details>
   <summary>
     <strong><span style="font-size: 1.2em;">Actor Sub-Schema</span></strong>  
-    </summary>   
+    </summary><br>  
+<p><strong>Example: Actor Sub-Schema (MongoDB)</strong></p>
 <pre><code class="language-json">
 <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;Actor&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
@@ -2254,7 +2375,8 @@ This defines the structure of a complete Movie resource.
 <details>
   <summary>
     <strong><span style="font-size: 1.2em;">Director Sub-Schema</span></strong> 
-    </summary>  
+    </summary><br>  
+<p><strong>Example: Director Sub-Schema (MongoDB)</strong></p>
 <pre><code class="language-json">
 <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;Director&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
