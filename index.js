@@ -193,6 +193,10 @@ app.get('/directors/:directorName', passport.authenticate('jwt', { session: fals
 // UPDATE (Update a User account by username)
 app.put('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
+        // Condition for the Authorization Check
+        if(req.user.username !== req.params.username){
+            return res.status(401).send('Permission denied: You can only modify your own account.');
+        }   
         let oldUsername = req.params.username;
         const body = req.body;
         const updates = {};
