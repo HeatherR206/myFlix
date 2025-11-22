@@ -190,18 +190,26 @@ const userSchema = new Schema({
      }
 });
 
-userSchema.pre('save', async function(next) {
-    const user = this;
-    if (user.isModified('password')) {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);    
-    }
-    next();
-});
-
-userSchema.methods.comparePassword = function(candidatePassword) {
-    return bcrypt.compare(candidatePassword, this.password);
+userSchema.statics.hashPassword = (password) => {
+  return bcrypt.hashSync(password, 10);
 };
+
+userSchema.methods.validatePassword = function(password) {
+  return bcrypt.compareSync(password, this.Password);
+};
+
+// userSchema.pre('save', async function(next) {
+//     const user = this;
+//     if (user.isModified('password')) {
+//         const salt = await bcrypt.genSalt(10);
+//         user.password = await bcrypt.hash(user.password, salt);    
+//     }
+//     next();
+// });
+
+// userSchema.methods.comparePassword = function(candidatePassword) {
+//     return bcrypt.compare(candidatePassword, this.password);
+// };
 
 
 let Movie = mongoose.model('Movie', movieSchema); 

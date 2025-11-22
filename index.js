@@ -1,9 +1,10 @@
 const path = require('path'),
     express = require('express'),
-    morgan = require('morgan'),
+    morgan = require('morgan'),  
     mongoose = require('mongoose'),
     models = require('./models.js');
 
+const { check, validationResult } = require('express-validator');
 const app = express();    
 
 const Movies = models.Movie;
@@ -32,8 +33,22 @@ app.get('/', async (req, res) => {
 });
 
 // CREATE (add new User)
-app.post('/users', async (req, res) => {
+app.post('/users', 
+    [
+        check('username', 'Username is required').isLength({min: 6}),
+        check('username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
+        check('password', 'Password is required').not().isEmpty(),
+        check('email', 'Email does not appear to be valid').isEmail()
+    ], async (req, res) => {       
     try {
+        // checks the validation object for errors
+        let errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+        let hashedPassword = Users.hashPassword(req.body.password);
+
         let user = await Users.findOne({ username: req.body.username });
 
         if (user) {
@@ -42,7 +57,7 @@ app.post('/users', async (req, res) => {
         let newUser = await Users.create({
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password,
+            password: hashedPassword,
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             birth_date: req.body.birth_date,
@@ -84,7 +99,7 @@ app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { sess
 });
 
 // READ (Get all Users)
-app.get('/users', async (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         let users = await Users.find();
         res.status(200).json(users);
@@ -96,7 +111,7 @@ app.get('/users', async (req, res) => {
 });
 
 // READ (Get User by username)
-app.get('/users/:username', async (req, res) => { 
+app.get('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
         let user = await Users.findOne({ username: req.params.username });
 
