@@ -291,8 +291,8 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something broke!");
 });
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
-app.listen(8080, () => {
-  console.log(`myFlix app is listening at http://localhost:${port}`);
+app.listen(port, '0.0.0.0',() => {
+  console.log('Listening on port' + ${port});
 });
