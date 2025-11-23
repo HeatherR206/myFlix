@@ -10,7 +10,15 @@ const app = express();
 const Movies = models.Movie;
 const Users = models.User;
 
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true })
+//     .then(() => {
+//         console.log('Successfully connected to MongoDB.');    
+//     })
+//     .catch((error) => {
+//         console.error('MongoDB connection error: ', error);
+//     });
+
+mongoose.connect( process.env.connection_uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('Successfully connected to MongoDB.');    
     })
