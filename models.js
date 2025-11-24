@@ -168,7 +168,8 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minlength: 10
+        minlength: 10,
+        select: false
     },
     first_name: {
         type: String
@@ -195,7 +196,7 @@ userSchema.statics.hashPassword = (password) => {
 };
 
 userSchema.methods.validatePassword = function(password) {
-  return bcrypt.compareSync(password, this.Password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 // userSchema.pre('save', async function(next) {

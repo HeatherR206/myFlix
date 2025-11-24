@@ -16,6 +16,7 @@ passport.use(
         async (username, password, callback) => {
             console.log(`${username} ${password}`);
             await Users.findOne({ username: username })
+            .select('+password')
             .then((user) => {
                 if (!user) {
                     console.log('incorrect username');
