@@ -43,41 +43,51 @@ app.get('/', async (req, res) => {
 // CREATE (add new User)
 app.post('/users', 
     [
-        check('username', 'Username is required').isLength({min: 6}),
-        check('username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
-        check('password', 'Password is required').not().isEmpty(),
-        check('email', 'Email does not appear to be valid').isEmail()
-    ], async (req, res) => {       
-    try {
-        // checks the validation object for errors
-        let errors = validationResult(req);
+        check('username').trim()
+            .isLength({min: 6}).withMessage('Username must be at least 6 characters long.')
+            .matches(/^[a-zA-Z0-9_-]+$/).withMessage('Username can only contain letters, numbers, hyphens, and underscores.'),
+        check('password')
+            .notEmpty().withMessage('Password is required.').isLength({min: 10}).withMessage('Password must be at least 10 characters long.'),
+        check('email').trim()
+            .isEmail().withMessage('Email does not appear to be valid.'),
+        check('first_name', 'First name is required.').optional().notEmpty().trim(),
+        check('last_name', 'Last name is required.').optional().notEmpty().trim(),
+        check('birth_date', 'Birth date must be a valid date (YYYY-MM-DD) format').optional().isDate()
+    ], 
+    async (req, res) => {       
+        try {
+            // checks the validation object for errors
+            let errors = validationResult(req);
 
-        if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            if (!errors.isEmpty()) {
+                return res.status(422).json({ errors: errors.array() });
+            }
+            let hashedPassword = Users.hashPassword(req.body.password);
+
+            let user = await Users.findOne({ username: req.body.username });
+
+            if (user) {
+                return res.status(409).json({
+                    message: req.body.username + ' already exists',
+                    field: 'username'
+                });
+            }
+            let newUser = await Users.create({
+                username: req.body.username,
+                email: req.body.email,
+                password: hashedPassword,
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                birth_date: req.body.birth_date,
+                favorite_movies: req.body.favorite_movies
+            });
+            
+            res.status(201).json(newUser);
+
+        } catch (error) {
+            console.error(`[${new Date().toISOString()}] Server Error on POST /users:`, error);
+            res.status(500).send('Internal Server Error. Please try again later.');
         }
-        let hashedPassword = Users.hashPassword(req.body.password);
-
-        let user = await Users.findOne({ username: req.body.username });
-
-        if (user) {
-            return res.status(400).send(req.body.username + 'already exists');
-        }
-        let newUser = await Users.create({
-            username: req.body.username,
-            email: req.body.email,
-            password: hashedPassword,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            birth_date: req.body.birth_date,
-            favorite_movies: req.body.favorite_movies
-        });
-         
-        res.status(201).json(newUser);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error: ' + error);
-    }
 });
 
 // CREATE (add movie a User's "Favorite Movies")
@@ -214,44 +224,81 @@ app.get('/directors/:directorName', passport.authenticate('jwt', { session: fals
 });
 
 // UPDATE (Update a User account by username)
-app.put('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    try {
-        // Condition for the Authorization Check
-        if(req.user.username !== req.params.username){
-            return res.status(401).send('Permission denied: You can only modify your own account.');
-        }   
-        let oldUsername = req.params.username;
-        const body = req.body;
-        const updates = {};
-        const updateableFields = [ 'username', 'email', 'password', 'first_name', 'last_name', 'birth_date' ];
-        
-        for (const field of updateableFields) {
-            if (Object.prototype.hasOwnProperty.call(body, field) && body[field] !== null) {
-                updates[field] = body[field];    
+app.put('/users/:username', 
+    passport.authenticate('jwt', { session: false }),
+    [
+        check('username').optional({ checkFalsy: true }).trim()
+            .isLength({min: 6}).withMessage('Username must be at least 6 characters long.')
+            .matches(/^[a-zA-Z0-9_-]+$/).withMessage('Username can only contain letters, numbers, hyphens, and underscores.'),
+        check('password').optional({ checkFalsy: true })
+            .isLength({min: 10}).withMessage('Password must be at least 10 characters long.'),
+        check('email').optional({ checkFalsy: true }).trim()
+            .isEmail().withMessage('Email does not appear to be valid.'),
+        check('first_name').optional().notEmpty().withMessage('First name cannot be empty.' ).trim(),
+        check('last_name').optional().notEmpty().withMessage('Last name cannot be empty.').trim(),
+        check('birth_date', 'Birth date must be a valid date (YYYY-MM-DD) format').optional().isDate()
+    ],
+    async (req, res) => {
+        try {
+            // Condition for the Authorization Check
+            if(req.user.username !== req.params.username){
+                return res.status(401).send('Permission denied: You can only modify your own account.');
             }
+
+            let errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({ errors: errors.array() });
+            }    
+              
+            let oldUsername = req.params.username;
+            const body = req.body;
+            const updates = {};
+            const updateableFields = [ 'username', 'email', 'password', 'first_name', 'last_name', 'birth_date' ];
+            
+            for (const field of updateableFields) {
+                if (Object.prototype.hasOwnProperty.call(body, field) && body[field] !== null) {
+                    if (field === 'password') {
+                        if (body[field].trim()) {
+                            updates[field] = Users.hashPassword(body[field]);
+                        }
+                    } else {
+                    updates[field] = body[field];    
+                    }
+                }
+            }
+            
+            if (Object.keys(updates).length === 0) {
+                return res.status(400).send('Error: No valid fields provided to update.');
+            }
+
+            if (updates.username && updates.username !== oldUsername) {
+                let existingUser = await Users.findOneAndUpdate({ username: updates.username });
+                if (existingUser) {
+                    return res.status(409).json({
+                        message: updates.username + 'already exists',
+                        field: 'username'
+                    });
+                }
+            }
+
+            let updatedUser = await Users.findOneAndUpdate(
+                { username: oldUsername },
+                { $set: updates },
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).send('Error: User not found in database');
+            }
+
+            res.status(200).json(updatedUser);
+
+        } catch (error) {
+            console.error(`[${new Date().toISOString()}] Error in PUT /users:`, error);
+            res.status(500).send('Internal Server Error. Please try again later.');
         }
-        
-        if (Object.keys(updates).length === 0) {
-            return res.status(400).send('Error: No valid fields provided to update.');
-        }
-
-        let updatedUser = await Users.findOneAndUpdate(
-            { username: oldUsername },
-            { $set: updates },
-            { new: true }
-        );
-
-        if (!updatedUser) {
-            return res.status(404).send('Error: User not found in database');
-        }
-
-        res.status(200).json(updatedUser);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error: ' + error);
     }
-});
+);
 
 // DELETE (Remove Movie from "Favorite Movies")
 app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -302,5 +349,6 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 8080;
 
 app.listen(port, '0.0.0.0',() => {
-  console.log('Listening on port' + ${port});
+  console.log('Listening on Port' + port);
+
 });
