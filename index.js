@@ -18,7 +18,7 @@ const Users = models.User;
 //         console.error('MongoDB connection error: ', error);
 //     });
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('Successfully connected to MongoDB.');    
     })
