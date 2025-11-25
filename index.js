@@ -31,6 +31,20 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
   
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
+
 let auth = require('./auth')(app);
 
 const passport = require('passport');
@@ -56,7 +70,6 @@ app.post('/users',
     ], 
     async (req, res) => {       
         try {
-            // checks the validation object for errors
             let errors = validationResult(req);
 
             if (!errors.isEmpty()) {
@@ -240,7 +253,6 @@ app.put('/users/:username',
     ],
     async (req, res) => {
         try {
-            // Condition for the Authorization Check
             if(req.user.username !== req.params.username){
                 return res.status(401).send('Permission denied: You can only modify your own account.');
             }
