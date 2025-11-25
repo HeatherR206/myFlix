@@ -2,4 +2,4 @@
 .DS_Store
 .github/copilot-instructions.md
 /.vscode
-/log.tx
+log.txt
