@@ -56,7 +56,7 @@ The myFlix API is a [**RESTful API**](https://restfulapi.net/) powered by **Java
 ## **API ENDPOINTS**
 
 | HTTP <br> Request | Endpoint | Example | Description |
-|-------------------|----------|---------|---|------------|
+|-------------------|----------|---------|-------------|
 | **GET** | `/movies` | `/movies` | Get all movies |
 | **GET** | `/movies/:title` | `/movies/Die%20Hard` | Get a single movie by title |
 | **GET** | `/genres/:genreName` | `/genres/Comedy` | Get genre info by name |
