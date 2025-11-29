@@ -54,7 +54,7 @@ app.get('/', async (req, res) => {
   res.send('Welcome to myFlix, a database for movie enthusiasts!');
 });
 
-// CREATE (add new User)
+// CREATE (Register new User)
 app.post('/users', 
     [
         check('username').trim()
@@ -103,7 +103,7 @@ app.post('/users',
         }
 });
 
-// CREATE (add movie a User's "Favorite Movies")
+// CREATE (Add movie to user's "Favorite Movies")
 app.post('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {   
         const userName = req.params.username;
@@ -209,7 +209,7 @@ app.get('/genres/:genreName', passport.authenticate('jwt', { session: false }), 
     }
 });
 
-// READ (Get a Director by name)
+// READ (Get Director by name)
 app.get('/directors/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
         const directorName = req.params.directorName;
@@ -236,7 +236,7 @@ app.get('/directors/:directorName', passport.authenticate('jwt', { session: fals
     }
 });
 
-// UPDATE (Update a User account by username)
+// UPDATE (Update User profile by username)
 app.put('/users/:username', 
     passport.authenticate('jwt', { session: false }),
     [
@@ -312,7 +312,7 @@ app.put('/users/:username',
     }
 );
 
-// DELETE (Remove Movie from "Favorite Movies")
+// DELETE (Remove Movie from User's "Favorite Movies")
 app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const userName = req.params.username;
