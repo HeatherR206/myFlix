@@ -87,10 +87,10 @@ The myFlix API is a [**RESTful API**](https://restfulapi.net/) powered by **Java
 
 ```json
     {
-        "username": "Jane_Doe525",      // Required
-        "password": "myS3cur3P@ss!",    // Required
-        "email": "jane@example.com",    // Required
-        "first_name": "Jane"            // Optional
+        "username": "Jane_Doe525",
+        "password": "myS3cur3P@ss!",
+        "email": "jane@example.com",
+        "first_name": "Jane"
     }
 ```    
 
