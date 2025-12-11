@@ -3,3 +3,4 @@
 .github/copilot-instructions.md
 /.vscode
 log.txt
+/.parcel-cache
