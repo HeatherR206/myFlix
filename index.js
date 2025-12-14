@@ -192,7 +192,7 @@ app.get("/movies", async (req, res) => {
             const encodedTitle = encodeURIComponent(movieTitle);
             const tmdbSearchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodedTitle}`;
 
-            let posterUrl = null;
+            let tmdbPosterUrl = null;
 
             try {
                 const tmdbResponse = await fetch(tmdbSearchUrl);
@@ -201,17 +201,16 @@ app.get("/movies", async (req, res) => {
                 if (tmdbData.results && tmdbData.results.length > 0) {
                     const posterPath = tmdbData.results[0].poster_path;
                     if (posterPath) {
-                        posterUrl = `${TMDB_IMAGE_BASE_URL}${posterPath}`;
+                        tmdbPosterUrl = `${TMDB_IMAGE_BASE_URL}${posterPath}`;
                     }
                 }
             } catch (tmdbError) {
-                console.warn(`TMDB fetch failed for ${movieTitle}:`, tmdbError.message);
+                console.warn(`Could not fetch poster for ${movieTitle}:`, tmdbError.message);
             }
 
-            return {
-                ...movie.toObject(),
-                image: posterUrl
-            };
+            const movieObject = movie.toObject();
+            movieObject.image_path = tmdbPosterUrl || movieObject.image_path;
+            return movieObject;
         });
 
         const moviesWithPosters = await Promise.all(moviesWithPostersPromises);
