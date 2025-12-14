@@ -1,3 +1,9 @@
+require('dotenv').config()
+
+const TMDB_API_KEY = process.env.TMDB_API_KEY;
+
+const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
 const path = require('path'),
     express = require('express'),
     morgan = require('morgan'),  
@@ -174,13 +180,48 @@ app.get(
 
 // READ (Get all Movies)
 app.get("/movies", async (req, res) => {
-  try {
-    let movies = await Movies.find();
-    res.status(200).json(movies);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error retrieving movies: " + error);
-  }
+    if (!TMDB_API_KEY) {
+        return res.status(500).send("TMDB_API_KEY is not configured on the server.");
+    }
+
+    try {
+        let movies = await Movies.find();
+
+        const moviesWithPostersPromises = movies.map(async (movie) => {
+            const movieTitle = movie.title;
+            const encodedTitle = encodeURIComponent(movieTitle);
+            const tmdbSearchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodedTitle}`;
+
+            let posterUrl = null;
+
+            try {
+                const tmdbResponse = await fetch(tmdbSearchUrl);
+                const tmdbData = await tmdbResponse.json();
+
+                if (tmdbData.results && tmdbData.results.length > 0) {
+                    const posterPath = tmdbData.results[0].poster_path;
+                    if (posterPath) {
+                        posterUrl = `${TMDB_IMAGE_BASE_URL}${posterPath}`;
+                    }
+                }
+            } catch (tmdbError) {
+                console.warn(`TMDB fetch failed for ${movieTitle}:`, tmdbError.message);
+            }
+
+            return {
+                ...movie.toObject(),
+                image: posterUrl
+            };
+        });
+
+        const moviesWithPosters = await Promise.all(moviesWithPostersPromises);
+
+        res.status(200).json(moviesWithPosters);
+
+    } catch (error) {
+        console.error("Error retrieving movies from Mongoose:", error);
+        res.status(500).send("Error retrieving movies: " + error);
+    }
 });
 
 // READ (Get a Movie by title)
