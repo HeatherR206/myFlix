@@ -5,7 +5,8 @@ const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
 const path = require('path'),
-    express = require('express'),
+    express = require('express'),cd ../../
+
     morgan = require('morgan'),  
     mongoose = require('mongoose'),
     models = require('./models.js');
