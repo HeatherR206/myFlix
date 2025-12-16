@@ -5,7 +5,7 @@ const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
 const path = require('path'),
-    express = require('express'),cd ../../
+    express = require('express'),
 
     morgan = require('morgan'),  
     mongoose = require('mongoose'),
@@ -180,7 +180,7 @@ app.get(
 );
 
 // READ (Get all Movies)
-app.get("/movies", async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {    
     if (!TMDB_API_KEY) {
         return res.status(500).send("TMDB_API_KEY is not configured on the server.");
     }
