@@ -40,7 +40,6 @@ app.use(cors());
 let auth = require("./auth")(app);
 
 const passport = require("passport");
-require("./passport");
 
 app.get("/", async (req, res) => {
   res.send("Welcome to myFlix, a database for movie enthusiasts!");
