@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-        <html>
+        <html lang="en">
         <head>
             <meta charset="UTF-8">
             <title>&#x1f39e;&#xfe0f;  myFlix API DOCUMENTATION</title>
@@ -160,8 +160,9 @@
   <summary>
     <strong><span style="font-size: 1.15em;">Installing MongoDB Community Server</span></strong>
 <p>You will need to install and run the <strong>MongoDB Community Server</strong> locally (e.g., your system Terminal). This service manages your database and makes it available for a connection with myFlix API.
+</p>
 </summary>
-<br></p>
+<br>
 <ol>
 <li><strong>Installation:</strong> Download and install the <strong>MongoDB Community Server</strong> for your operating system from the official MongoDB website.</li>
 </ol>
@@ -200,39 +201,29 @@
 <thead>
 <tr>
 <th>Package</th>
-<th></th>
 <th>Purpose</th>
-<th></th>
 <th>Explanation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Express</strong></td>
-<td></td>
 <td>Minimalist web framework for Node.js</td>
-<td></td>
 <td>Routing and Middleware</td>
 </tr>
 <tr>
 <td><strong>Morgan</strong></td>
-<td></td>
 <td>Logs HTTP requests to the console</td>
-<td></td>
 <td>Logging Middleware</td>
 </tr>
 <tr>
 <td><strong>Mongoose</strong></td>
-<td></td>
 <td>Provides structure (schemas) and tools for MongoDB interaction</td>
-<td></td>
 <td>Object Data Modeling (ODM)</td>
 </tr>
 <tr>
 <td><strong>Body-Parser</strong> (optional)</td>
-<td></td>
 <td>Parses incoming request bodies in a middleware before your handlers</td>
-<td></td>
 <td>Parsing Middleware</td>
 </tr>
 <tr>
@@ -246,15 +237,16 @@
 </table>
 <br>
 <details>
-  <summary>
-    <strong><span style="font-size: 1.2em;">Installing Node Packages</span></strong>
-    <br>
+    <summary>
+        <strong><span style="font-size: 1.2em;">Installing Node Packages</span></strong>
+    </summary>
+    <br />
 <p>You may find it helpful to read up on <a href="https://www.npmjs.com/"><strong>npm</strong></a>, Node's default package manager. You will use your system <strong>CLI</strong> (Command Line Interface) or <strong>IDE</strong> Terminal for Node package installations.</p>
 <br>
 <blockquote>
 <p>⭐️ <strong>Tip:</strong> Using your IDE's Terminal to install Node dependencies may be more convenient and efficient!</p>
 </blockquote>
-</summary>
+
 <br>
 <ol>
 <li>
@@ -337,7 +329,6 @@
 <tr>
 <th>Step</th>
 <th>Middleware/Purpose</th>
-<th></th>
 <th>Notes</th>
 </tr>
 </thead>
@@ -345,37 +336,30 @@
 <tr>
 <td><strong>1</strong></td>
 <td><strong>Logging</strong> (<code>morgan</code>)</td>
-<td></td>
 <td>Logs the request details immediately upon receipt</td>
 </tr>
 <tr>
 <td><strong>2</strong></td>
 <td><strong>Static Files</strong> (<code>express.static</code>)</td>
-<td></td>
 <td><strong>Crucial</strong>: Checks for static assets (HTML, CSS, images). If found, the request is served and process ends</td>
 </tr>
 <tr>
 <td><strong>3</strong></td>
 <td><strong>Body Parsing</strong> (<code>express.json()</code>, <code>express.urlencoded()</code>)</td>
-<td></td>
 <td>Processes request bodies (e.g., JSON from a <code>POST</code> request) so route handlers can read <code>req.body</code></td>
 </tr>
 <tr>
 <td><strong>4</strong></td>
 <td><strong>Authentification/Session</strong> (if applicable)</td>
-<td></td>
-<td>Verifies user identity before any route logic executes</td>
 </tr>
 <tr>
 <td><strong>5</strong></td>
 <td><strong>Route Handlers</strong> (<code>app.get</code>, <code>app.post</code>, etc.)</td>
-<td></td>
 <td>Specific functions executing the business logic (e.g., querying the database)</td>
 </tr>
 <tr>
 <td><strong>6</strong></td>
 <td><strong>Error-Handling Middleware</strong> (<code>app.use((err, req, res, next)</code>)</td>
-<td></td>
 <td>A special function defined with four arguments to catch final errors in application</td>
 </tr>
 <tr>
@@ -950,14 +934,14 @@ Explains the fields and data types returned</p>
 <details>
   <summary>
     <strong><span style="font-size: 1.25em;"><code>POST : Add a Movie to "Favorite Movies"</code></span></strong>
-<p>This endpoint adds a specific Movie ObjectId to a User's list of &quot;Favorite Movies&quot;.
-<br></p>
-<p><strong>Endpoint:</strong> <code>/users/:username/movies/:movieId</code><br>
+    <p>This endpoint adds a specific Movie ObjectId to a User's list of &quot;Favorite Movies&quot;.</p>
+    <br>
+<p><strong>Endpoint:</strong><code>/users/:username/movies/:movieId</code><br>
 <strong>Example:</strong> /users/Jane_Doe525/movies/65561b8dc9510166299d6d3e<br>
 <strong>CRUD Operation:</strong> UPDATE (modifies the User document)<br>
-<strong>Authentification:</strong> Required
+<strong>Authentification:</strong> Required</p>
 </summary>
-<br></p>
+<br>
 <p><strong>1. Request Parameters Table (Input Schema)</strong><br>
 This defines what the client sends and the rules for each field. <strong>No Request Body is required</strong></p>
 <table>
@@ -1089,8 +1073,8 @@ Explains the updated array</p>
 <br></p>
 <p><strong>Endpoint:</strong> <code>/movies</code><br>
 <strong>CRUD Operation:</strong> READ<br>
-<strong>Authentification:</strong> none
-</summary></p>
+<strong>Authentification:</strong> none</p>
+</summary>
 <br>
 <p><strong>1. Request Parameters Table (Input Schema)</strong><br>
 This endpoint takes no parameters and requires no request body.</p>
@@ -1391,8 +1375,9 @@ Details the specific fields returned</p>
 <strong>Example:</strong> /genres/Animated<br>
 <strong>CRUD Operation:</strong> READ<br>
 <strong>Authentification:</strong> none
+</p>
 </summary>
-<br></p>
+<br>
 <p><strong>1. Request Parameters Table (Input Schema)</strong><br>
 The required parameter is passed via the URL path. No request body is required.</p>
 <table>
@@ -1514,14 +1499,15 @@ Standard specified fields and data types returned for an embedded Genre object.<
 <details>
   <summary>
     <strong><span style="font-size: 1.25em;"><code>GET : Get a Director by name</code></span></strong>
-<p>This endpoint finds a Movie directed by the specified Director and returns only the embedded Director object details.
-<br></p>
-<p><strong>Endpoint:</strong> <code>/directors/:directorName</code><br>
-<strong>Example:</strong> /directors/Rob%20Reiner<br>
-<strong>CRUD Operation:</strong> READ<br>
-<strong>Authentification:</strong> none
-</summary>
-<br></p>
+        <p>This endpoint finds a Movie directed by the specified Director and returns only the embedded Director object details.
+        <br></p>
+        <p><strong>Endpoint:</strong> <code>/directors/:directorName</code><br>
+        <strong>Example:</strong> /directors/Rob%20Reiner<br>
+        <strong>CRUD Operation:</strong> READ<br>
+        <strong>Authentification:</strong> none
+        </p>
+    </summary>
+<br>
 <p><strong>1. Request Parameters Table (Input Schema)</strong><br>
 The required parameter is passed via the URL path. No request body is required.</p>
 <table>
@@ -1653,8 +1639,9 @@ Explains the fields and data types returned</p>
 <strong>Example:</strong> /users/Jane_Doe525<br>
 <strong>CRUD Operation:</strong> UPDATE<br>
 <strong>Authentification:</strong> Required
+</p>
 </summary>
-<br></p>
+<br>
 <p><strong>1. Request Parameters Table (Input Schema)</strong><br>
 The parameters to find the User are passed via the URL path. Only the <code>username</code> field is required.</p>
 <table>
@@ -1845,8 +1832,9 @@ Details the specific fields returned</p>
 <strong>Example:</strong> /users/Jane_Doe525<br>
 <strong>CRUD Operation:</strong> DELETE<br>
 <strong>Authentification:</strong> Required
-</summary>
-<br></p>
+
+</p></summary>
+<br>
 <p><strong>1. Request Parameters Table (Input Schema)</strong><br>
 This defines what the client sends and the rules for each field.</p>
 <table>
@@ -1944,8 +1932,9 @@ Details the specific output</p>
 <strong>Example:</strong> /users/Jane_Doe525/movies/65561b8dc9510166299d6d3e<br>
 <strong>CRUD Operation:</strong> UPDATE (modifies the Users document)<br>
 <strong>Authentification:</strong> Required
+</p>
 </summary>
-<br></p>
+<br>
 <p><strong>1. Request Parameters Table (Input Schema)</strong><br>
 The required data is passed via URL parameters (path variables). <strong>No Request Body is required</strong>.</p>
 <table>
@@ -2076,9 +2065,7 @@ Details on the updated <code>favorite_movies</code> array</p>
 <tr>
 <th>Status Code</th>
 <th>Class</th>
-<th></th>
 <th>Description</th>
-<th></th>
 <th>Usage in myFlix</th>
 </tr>
 </thead>
@@ -2086,41 +2073,31 @@ Details on the updated <code>favorite_movies</code> array</p>
 <tr>
 <td><code>200 OK</code></td>
 <td>Success</td>
-<td></td>
 <td>Request was successful</td>
-<td></td>
 <td>Used for GET (read), PUT (update), and successful DELETE (removing a favorite movie)</td>
 </tr>
 <tr>
 <td><code>201 Created</code></td>
 <td>Success</td>
-<td></td>
 <td>New resource was successfully created</td>
-<td></td>
 <td>Used for <code>POST</code> (new user registration)</td>
 </tr>
 <tr>
 <td><code>400 Bad Request</code></td>
 <td>Client Error</td>
-<td></td>
 <td>The server does not understand the request due to a client-side error (e.g., failed validation)</td>
-<td></td>
 <td>Returned if a username is already taken or if required fields are missing</td>
 </tr>
 <tr>
 <td><code>404 Not Found</code></td>
 <td>Client Error</td>
-<td></td>
 <td>The requested resource was not found</td>
-<td></td>
 <td>Returned if a user or movie ID/title does not exist</td>
 </tr>
 <tr>
 <td><code>500 Internal Server Error</code></td>
 <td>Server Error</td>
-<td></td>
 <td>A generic error indicating a server-side failure (e.g., database connection failure)</td>
-<td></td>
 <td>Should always be included as a fallback error</td>
 </tr>
 <tr>
