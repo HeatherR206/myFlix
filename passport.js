@@ -43,7 +43,7 @@ passport.use(
 
 passport.use(new JWTStrategy ({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'your_jwt_secret'
+    secretOrKey: process.env.JWT_SECRET || 'dev_secret_fallback'
 }, async (jwtPayload, callback) => {
     return await Users.findById(jwtPayload._id)
         .then((user) => {
