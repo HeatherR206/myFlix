@@ -90,7 +90,7 @@ The myFlix API is a [**RESTful API**](https://restfulapi.net/) powered by **Java
         "username": "Jane_Doe525",
         "password": "myS3cur3P@ss!",
         "email": "jane@example.com",
-        "first_name": "Jane"
+        "firstName": "Jane"
     }
 ```    
 
@@ -112,11 +112,11 @@ The myFlix API is a [**RESTful API**](https://restfulapi.net/) powered by **Java
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password,
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                birth_date: req.body.birth_date,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                birthDate: req.body.birthDate,
             // favorite_movies will default to [] if defined in the Schema
-                favorite_movies: req.body.favorite_movies 
+                favorite_movies: req.body.favoriteMovies 
             });
             
             res.status(201).json(newUser);
@@ -137,9 +137,9 @@ The myFlix API is a [**RESTful API**](https://restfulapi.net/) powered by **Java
 ```json
 
     {
-        "director_name": "Peter Doe",
+        "directorName": "Peter Doe",
         "bio": "A brief biography of the director.",
-        "birth_date": "1973-11-09", 
+        "birthDate": "1973-11-09", 
     }
 
 ```

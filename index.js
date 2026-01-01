@@ -41,13 +41,13 @@ let auth = require("./auth")(app);
 
 const passport = require("passport");
 
-app.get("/", async (req, res) => {
+app.get(`${API_URL}/`, async (req, res) => {
   res.send("Welcome to myFlix, a database for movie enthusiasts!");
 });
 
 // CREATE (Register new User)
 app.post(
-  "/users",
+  `${API_URL}/users`,
   [
     check("username")
       .trim()
@@ -66,9 +66,9 @@ app.post(
       .trim()
       .isEmail()
       .withMessage("Email does not appear to be valid."),
-    check("first_name", "First name is required.").optional().notEmpty().trim(),
-    check("last_name", "Last name is required.").optional().notEmpty().trim(),
-    check("birth_date", "Birth date must be a valid date (YYYY-MM-DD) format")
+    check("firstName", "First name is required.").optional().notEmpty().trim(),
+    check("lastName", "Last name is required.").optional().notEmpty().trim(),
+    check("birthDate", "Birth date must be a valid date (YYYY-MM-DD) format")
       .optional()
       .isDate(),
   ],
@@ -93,10 +93,10 @@ app.post(
         username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        birth_date: req.body.birth_date,
-        favorite_movies: req.body.favorite_movies,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        birthDate: req.body.birthDate,
+        favoriteMovies: req.body.favoriteMovies,
       });
 
       res.status(201).json(newUser);
@@ -112,7 +112,7 @@ app.post(
 
 // CREATE (Add movie to user's "Favorite Movies")
 app.post(
-  "/users/:username/movies/:movieId",
+  `${API_URL}/users/:username/movies/:movieId`,
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -123,7 +123,7 @@ app.post(
 
       let updatedUser = await Users.findOneAndUpdate(
         { username: userName },
-        { $push: { favorite_movies: movieId } },
+        { $push: { favoriteMovies: movieId } },
         { new: true }
       );
 
@@ -143,7 +143,7 @@ app.post(
 
 // READ (Get all Users)
 app.get(
-  "/users",
+  `${API_URL}/users`,
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -158,7 +158,7 @@ app.get(
 
 // READ (Get User by username)
 app.get(
-  "/users/:username",
+  `${API_URL}/users/:username`,
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -179,7 +179,7 @@ app.get(
 );
 
 // READ (Get all Movies)
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {    
+app.get(`${API_URL}/movies`, passport.authenticate('jwt', { session: false }), async (req, res) => {    
     if (!TMDB_API_KEY) {
         return res.status(500).send("TMDB_API_KEY is not configured on the server.");
     }
@@ -209,7 +209,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
             }
 
             const movieObject = movie.toObject();
-            movieObject.image_path = tmdbPosterUrl || movieObject.image_path;
+            movieObject.imagePath = tmdbPosterUrl || movieObject.imagePath;
             return movieObject;
         });
 
@@ -224,7 +224,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 });
 
 // READ (Get a Movie by title)
-app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => { 
+app.get(`${API_URL}/movies/:title`, passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
         let movie = await Movies.findOne({ title: req.params.title });
         res.status(200).json(movie);
@@ -236,18 +236,18 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
 });
 
 // READ (Get Genre by name)
-app.get('/genres/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => { 
+app.get(`${API_URL}/genres/:genreName`, passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
         const genreName = req.params.genreName;
         
-        let movie = await Movies.findOne({ 'genres.genre_name': genreName });
+        let movie = await Movies.findOne({ 'genres.genreName': genreName });
         
         if (!movie) {
             return res.status(404).send(`Error: no data found in the database for this Genre: ${genreName}`);
         }
 
         const genreDetails = movie.genres.find(
-            g => g.genre_name === genreName
+            g => g.genreName === genreName
         );
 
         if (!genreDetails) {
@@ -263,18 +263,18 @@ app.get('/genres/:genreName', passport.authenticate('jwt', { session: false }), 
 });
 
 // READ (Get Director by name)
-app.get('/directors/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => { 
+app.get(`${API_URL}/directors/:directorName`, passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
         const directorName = req.params.directorName;
 
-        let movie = await Movies.findOne({ 'directors.director_name': directorName });
+        let movie = await Movies.findOne({ 'directors.directorName': directorName });
                
         if (!movie) {
             return res.status(404).send(`Error: no data in the database for this Director: ${directorName}`);
         }
         
         const directorDetails = movie.directors.find(
-            d => d.director_name === directorName
+            d => d.directorName === directorName
         );
 
         if (!directorDetails) {
@@ -290,7 +290,7 @@ app.get('/directors/:directorName', passport.authenticate('jwt', { session: fals
 });
 
 // UPDATE (Update User profile by username)
-app.put('/users/:username', 
+app.put(`${API_URL}/users/:username`, 
     passport.authenticate('jwt', { session: false }),
     [
         check('username').optional({ checkFalsy: true }).trim()
@@ -300,9 +300,9 @@ app.put('/users/:username',
             .isLength({min: 10}).withMessage('Password must be at least 10 characters long.'),
         check('email').optional({ checkFalsy: true }).trim()
             .isEmail().withMessage('Email does not appear to be valid.'),
-        check('first_name').optional().notEmpty().withMessage('First name cannot be empty.' ).trim(),
-        check('last_name').optional().notEmpty().withMessage('Last name cannot be empty.').trim(),
-        check('birth_date', 'Birth date must be a valid date (YYYY-MM-DD) format').optional().isDate()
+        check('firstName').optional().notEmpty().withMessage('First name cannot be empty.' ).trim(),
+        check('lastName').optional().notEmpty().withMessage('Last name cannot be empty.').trim(),
+        check('birthDate', 'Birth date must be a valid date (YYYY-MM-DD) format').optional().isDate()
     ],
     async (req, res) => {
         try {
@@ -318,7 +318,7 @@ app.put('/users/:username',
             let oldUsername = req.params.username;
             const body = req.body;
             const updates = {};
-            const updateableFields = [ 'username', 'email', 'password', 'first_name', 'last_name', 'birth_date' ];
+            const updateableFields = [ 'username', 'email', 'password', 'firstName', 'lastName', 'birthDate' ];
             
             for (const field of updateableFields) {
                 if (Object.prototype.hasOwnProperty.call(body, field) && body[field] !== null) {
@@ -366,14 +366,14 @@ app.put('/users/:username',
 );
 
 // DELETE (Remove Movie from User's "Favorite Movies")
-app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete(`${API_URL}/users/:username/movies/:movieId`, passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const userName = req.params.username;
         const movieId = req.params.movieId;
         
         let updatedUser = await Users.findOneAndUpdate(
             { username: userName },
-            { $pull: { favorite_movies: movieId } },
+            { $pull: { favoriteMovies: movieId } },
             { new: true }
         );
 
@@ -390,7 +390,7 @@ app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { se
 });
 
 // DELETE (Remove a User by username)
-app.delete('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete(`${API_URL}/users/:username`, passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         let user = await Users.findOneAndDelete({ username: req.params.username });        
         
