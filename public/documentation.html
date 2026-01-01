@@ -445,11 +445,11 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
 
 <span class="hljs-comment">// Referencing genreSchema allows for a movie to have multiple Genres that each contain nested properties</span>
 <span class="hljs-keyword">const</span> genreSchema = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Schema</span>({
-    <span class="hljs-attr">genre_name</span>: {
+    <span class="hljs-attr">genreName</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
         <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>
     },
-    <span class="hljs-attr">genre_description</span>: {
+    <span class="hljs-attr">genreDescription</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
         <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>
     }
@@ -457,14 +457,14 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
 
 <span class="hljs-comment">// Referencing actorSchema allows for a movie to have multiple Actors that each contain nested properties</span>
 <span class="hljs-keyword">const</span> actorSchema = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Schema</span>({
-    <span class="hljs-attr">actor_name</span>: {
+    <span class="hljs-attr">actorName</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
         <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>
     },
-    <span class="hljs-attr">actor_bio</span>: {
+    <span class="hljs-attr">actorBio</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>
     },
-    <span class="hljs-attr">birth_date</span>: {
+    <span class="hljs-attr">birthDate</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
         <span class="hljs-attr">validate</span>: {
             <span class="hljs-attr">validator</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) {
@@ -477,14 +477,14 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
         },
         <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>
     },
-    <span class="hljs-attr">death_date</span>: {
+    <span class="hljs-attr">deathDate</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">Date</span>,
         <span class="hljs-attr">validate</span>: {
             <span class="hljs-attr">validator</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>){
                 <span class="hljs-keyword">if</span> (!v) {
                     <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
                 }
-                <span class="hljs-keyword">const</span> birthDate = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">birth_date</span>);
+                <span class="hljs-keyword">const</span> birthDate = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">birthDate</span>);
 
                 <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(birthDate.<span class="hljs-title function_">valueOf</span>())) { 
                     <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
@@ -492,20 +492,20 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
                 <span class="hljs-keyword">return</span> v &gt;= birthDate;
             }                  
         },
-            <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Death date must be after the birthdate.&#x27;</span>  
+            <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Death date must be after the birth date.&#x27;</span>   
     },
 }, { <span class="hljs-attr">_id</span>: <span class="hljs-literal">false</span> });
 
 <span class="hljs-comment">// Referencing directorSchema allows for a movie to have multiple Directors that each contain nested properties</span>
 <span class="hljs-keyword">const</span> directorSchema = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Schema</span>({
-    <span class="hljs-attr">director_name</span>: {
+    <span class="hljs-attr">directorName</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
         <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>
     },
     <span class="hljs-attr">bio</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>
     },
-    <span class="hljs-attr">birth_date</span>: {
+    <span class="hljs-attr">birthDate</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
         <span class="hljs-attr">validate</span>: {
             <span class="hljs-attr">validator</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) { 
@@ -518,14 +518,14 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
         },
         <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>
     },
-    <span class="hljs-attr">death_date</span>: {
+    <span class="hljs-attr">deathDate</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">Date</span>,
         <span class="hljs-attr">validate</span>: {
             <span class="hljs-attr">validator</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>){
                 <span class="hljs-keyword">if</span> (!v) {
                     <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
                 }
-                <span class="hljs-keyword">const</span> birthDate = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">birth_date</span>);
+                <span class="hljs-keyword">const</span> birthDate = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">birthDate</span>);
 
                 <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(birthDate.<span class="hljs-title function_">valueOf</span>())) { 
                     <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
@@ -570,8 +570,8 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
             <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;A Movie must have at least one Genre.&#x27;</span>
         }
     },
-    <span class="hljs-attr">actors</span>: {
-        <span class="hljs-attr">type</span>: [actorSchema],
+    <span class="hljs-attr">cast</span>: {
+        <span class="hljs-attr">type</span>: [castSchema],
         <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
         <span class="hljs-attr">validate</span>: {
             <span class="hljs-attr">validator</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) {
@@ -590,10 +590,10 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
             <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;A Movie must have at least one Director.&#x27;</span>
         }
     },   
-    <span class="hljs-attr">release_date</span>: {
+    <span class="hljs-attr">releaseDate</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">Date</span>
     },
-    <span class="hljs-attr">image_path</span>: {
+    <span class="hljs-attr">imagePath</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>
     },
     <span class="hljs-attr">featured</span>: {
@@ -639,18 +639,18 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
         <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
         <span class="hljs-attr">minlength</span>: <span class="hljs-number">10</span>
     },
-    <span class="hljs-attr">first_name</span>: {
+    <span class="hljs-attr">firstName</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>
     },
-    <span class="hljs-attr">last_name</span>: {
+    <span class="hljs-attr">lastName</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>
     },
     
-    <span class="hljs-attr">birth_date</span>: {
+    <span class="hljs-attr">birthDate</span>: {
         <span class="hljs-attr">type</span>: <span class="hljs-title class_">Date</span>,
     },
 
-    <span class="hljs-attr">favorite_movies</span>: {
+    <span class="hljs-attr">favoriteMovies</span>: {
         <span class="hljs-attr">type</span>: [{
             <span class="hljs-attr">type</span>: mongoose.<span class="hljs-property">Schema</span>.<span class="hljs-property">Types</span>.<span class="hljs-property">ObjectId</span>,
             <span class="hljs-attr">ref</span>: <span class="hljs-string">&#x27;Movie&#x27;</span>
@@ -663,14 +663,14 @@ app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8
 userSchema.<span class="hljs-title function_">pre</span>(<span class="hljs-string">&#x27;save&#x27;</span>, <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>(<span class="hljs-params">next</span>) {
     <span class="hljs-keyword">const</span> user = <span class="hljs-variable language_">this</span>;
     <span class="hljs-keyword">if</span> (user.<span class="hljs-title function_">isModified</span>(<span class="hljs-string">&#x27;password&#x27;</span>)) {
-        <span class="hljs-keyword">const</span> salt = <span class="hljs-keyword">await</span> bcrypt.<span class="hljs-title function_">genSalt</span>(<span class="hljs-number">10</span>);
-        user.<span class="hljs-property">password</span> = <span class="hljs-keyword">await</span> bcrypt.<span class="hljs-title function_">hash</span>(user.<span class="hljs-property">password</span>, salt);    
+        <span class="hljs-keyword">const</span> salt = <span class="hljs-keyword">await</span> bcryptjs.<span class="hljs-title function_">genSalt</span>(<span class="hljs-number">10</span>);
+        user.<span class="hljs-property">password</span> = <span class="hljs-keyword">await</span> bcryptjs.<span class="hljs-title function_">hash</span>(user.<span class="hljs-property">password</span>, salt);    
     }
     <span class="hljs-title function_">next</span>();
 });
 
 userSchema.<span class="hljs-property">methods</span>.<span class="hljs-property">comparePassword</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params">candidatePassword</span>) {
-    <span class="hljs-keyword">return</span> bcrypt.<span class="hljs-title function_">compare</span>(candidatePassword, <span class="hljs-variable language_">this</span>.<span class="hljs-property">password</span>);
+    <span class="hljs-keyword">return</span> bcryptjs.<span class="hljs-title function_">compare</span>(candidatePassword, <span class="hljs-variable language_">this</span>.<span class="hljs-property">password</span>);
 };
 
 </code></pre>
@@ -787,28 +787,28 @@ This defines what the client sends and the rules for each field.</p>
 <td><code>&quot;myS3cur3P@ss!&quot;</code></td>
 </tr>
 <tr>
-<td>first_name</td>
+<td>firstName</td>
 <td>string</td>
 <td>no</td>
 <td><em>(none)</em></td>
 <td><code>&quot;Jane&quot;</code></td>
 </tr>
 <tr>
-<td>last_name</td>
+<td>lastName</td>
 <td>string</td>
 <td>no</td>
 <td><em>(none)</em></td>
 <td><code>&quot;Doe&quot;</code></td>
 </tr>
 <tr>
-<td>birth_date</td>
+<td>birthDate</td>
 <td>date</td>
 <td>no</td>
 <td>Date string format: <code>YYYY-MM-DD</code></td>
 <td><code>&quot;1983-06-18&quot;</code></td>
 </tr>
 <tr>
-<td>favorite_movies</td>
+<td>favoriteMovies</td>
 <td>array, ObjectId</td>
 <td>no</td>
 <td>Array of <code>movie ObjectIds</code> (strings)</td>
@@ -829,7 +829,7 @@ This defines what the client sends and the rules for each field.</p>
     <span class="hljs-attr">&quot;username&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane_Doe525&quot;</span><span class="hljs-punctuation">,</span>      <span class="hljs-comment">// Required</span>
     <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;myS3cur3P@ss!&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// Required</span>
     <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;jane@example.com&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// Required</span>
-    <span class="hljs-attr">&quot;first_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane&quot;</span>         <span class="hljs-comment">// Optional</span>
+    <span class="hljs-attr">&quot;firstName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane&quot;</span>         <span class="hljs-comment">// Optional</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
 <br>
@@ -849,11 +849,11 @@ app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x
             <span class="hljs-attr">username</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">username</span>,
             <span class="hljs-attr">email</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">email</span>,
             <span class="hljs-attr">password</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">password</span>,
-            <span class="hljs-attr">first_name</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">first_name</span>,
-            <span class="hljs-attr">last_name</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">last_name</span>,
-            <span class="hljs-attr">birth_date</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">birth_date</span>,
-        <span class="hljs-comment">// favorite_movies will default to [] if defined in the Schema</span>
-            <span class="hljs-attr">favorite_movies</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">favorite_movies</span> 
+            <span class="hljs-attr">firstName</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">firstName</span>,
+            <span class="hljs-attr">lastName</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">lastName</span>,
+            <span class="hljs-attr">birthDate</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">birthDate</span>,
+        <span class="hljs-comment">// favoriteMovies will default to [] if defined in the Schema</span>
+            <span class="hljs-attr">favoriteMovies</span>: req.<span class="hljs-property">body</span>.<span class="hljs-property">favoriteMovies</span> 
         });
         
         res.<span class="hljs-title function_">status</span>(<span class="hljs-number">201</span>).<span class="hljs-title function_">json</span>(newUser);
@@ -919,7 +919,7 @@ Explains the fields and data types returned</p>
     <span class="hljs-attr">&quot;_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;65561a37c9510166299d6d3d&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;username&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane_Doe525&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;jane@example.com&quot;</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;favorite_movies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;__v&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span> <span class="hljs-comment">// Mongoose version key</span>
 <span class="hljs-punctuation">}</span>
 </code></pre>
@@ -991,7 +991,7 @@ app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x
         
         <span class="hljs-keyword">let</span> updatedUser = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Users</span>.<span class="hljs-title function_">findOneAndUpdate</span>(
             { <span class="hljs-attr">username</span>: userName }, <span class="hljs-comment">// Find the user by their Username</span>
-            { <span class="hljs-attr">$push</span>: { <span class="hljs-attr">favorite_movies</span>: movieId } },
+            { <span class="hljs-attr">$push</span>: { <span class="hljs-attr">favoriteMovies</span>: movieId } },
             { <span class="hljs-attr">new</span>: <span class="hljs-literal">true</span> } <span class="hljs-comment">// Forces the updated document to be returned</span>
         );
 
@@ -1030,7 +1030,7 @@ Explains the updated array</p>
 <td>The unique <strong>MongoDB ObjectId</strong> for the User</td>
 </tr>
 <tr>
-<td><strong>favorite_movies</strong></td>
+<td><strong>favoriteMovies</strong></td>
 <td>array of string</td>
 <td>The complete array of <strong>movie ObjectIds</strong>, including the newly added Movie</td>
 </tr>
@@ -1154,17 +1154,17 @@ Explains the Movie document structure</p>
 <tr>
 <td><strong>genres</strong></td>
 <td>array</td>
-<td>A reference object containing <code>genre_name</code> and <code>genre_description</code></td>
+<td>A reference object containing <code>genreName</code> and <code>genreDescription</code></td>
 </tr>
 <tr>
-<td><strong>actors</strong></td>
+<td><strong>cast</strong></td>
 <td>array</td>
-<td>A reference object containing <code>actor_name</code>, <code>actor_bio</code>, <code>birth_date</code></td>
+<td>A reference object containing <code>castName</code>, <code>castBio</code>, <code>birthDate</code></td>
 </tr>
 <tr>
 <td><strong>directors</strong></td>
 <td>array</td>
-<td>A reference object containing <code>director_name</code>, <code>bio</code>, <code>birth_date</code></td>
+<td>A reference object containing <code>directorName</code>, <code>bio</code>, <code>birthDate</code></td>
 </tr>
 <tr>
 <td><em>(All other fields)</em></td>
@@ -1187,35 +1187,35 @@ Explains the Movie document structure</p>
         <span class="hljs-attr">&quot;summary&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A concise summary of the first movie&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;genres&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Comedy&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Comedy film genre is designed to be humorous or amusing, intending to induce laughter. It usually features lighthearted plots and ends happily.&quot;</span>
+                <span class="hljs-attr">&quot;genreName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Comedy&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;genreDescription&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Comedy film genre is designed to be humorous or amusing, intending to induce laughter. It usually features lighthearted plots and ends happily.&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Family&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Family film genre is aimed at audiences of all ages, often focusing on themes of childhood, home, and love.&quot;</span>
+                <span class="hljs-attr">&quot;genreName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Family&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;genreDescription&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Family film genre is aimed at audiences of all ages, often focusing on themes of childhood, home, and love.&quot;</span>
             <span class="hljs-punctuation">}</span>
         <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;actors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-attr">&quot;cast&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;actor_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Joe Talent&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;actor_bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1979-12-08&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;castName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Joe Talent&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;castBio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1979-12-08&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>  
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;actor_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Beth Smith&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;actor_bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1963-04-12&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;castName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Beth Smith&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;castBio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1963-04-12&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-punctuation">}</span>
         <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;directors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;director_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Peter Doe&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;directorName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Peter Doe&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief director bio&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1973-11-09&quot;</span><span class="hljs-punctuation">,</span> 
+                <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1973-11-09&quot;</span><span class="hljs-punctuation">,</span> 
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
         <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;release_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2022-01-25&quot;</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;image_path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;movietitle.png&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;releaseDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2022-01-25&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;imagePath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;movietitle.png&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;featured&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>/<span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;__v&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span>
     <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
@@ -1328,35 +1328,35 @@ Details the specific fields returned</p>
         <span class="hljs-attr">&quot;summary&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A concise summary of the first movie&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;genres&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Comedy&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Comedy film genre is designed to be humorous or amusing, intending to induce laughter. It usually features lighthearted plots and ends happily.&quot;</span>
+                <span class="hljs-attr">&quot;genreName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Comedy&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;genreDescription&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Comedy film genre is designed to be humorous or amusing, intending to induce laughter. It usually features lighthearted plots and ends happily.&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Family&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Family film genre is aimed at audiences of all ages, often focusing on themes of childhood, home, and love.&quot;</span>
+                <span class="hljs-attr">&quot;genreName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Family&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;genreDescription&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Family film genre is aimed at audiences of all ages, often focusing on themes of childhood, home, and love.&quot;</span>
             <span class="hljs-punctuation">}</span>
         <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;actors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-attr">&quot;cast&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;actor_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Joe Talent&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;actor_bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1979-12-08&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;castName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Joe Talent&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;castBio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1979-12-08&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>  
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;actor_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Beth Smith&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;actor_bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1963-04-12&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;castName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Beth Smith&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;castBio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief actor bio&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1963-04-12&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-punctuation">}</span>
         <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;directors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
             <span class="hljs-punctuation">{</span>
-                <span class="hljs-attr">&quot;director_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Peter Doe&quot;</span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;directorName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Peter Doe&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief biography of the director.&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1973-11-09&quot;</span><span class="hljs-punctuation">,</span> 
+                <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1973-11-09&quot;</span><span class="hljs-punctuation">,</span> 
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
         <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;release_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2022-01-25&quot;</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;image_path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;movietitle.png&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;releaseDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2022-01-25&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;imagePath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;movietitle.png&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;featured&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>/<span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;__v&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span>
     <span class="hljs-punctuation">}</span>
@@ -1408,14 +1408,14 @@ The required parameter is passed via the URL path. No request body is required.<
 </tbody>
 </table>
 <p><strong>2. <code>GET</code> Request JavaScript</strong>
-This logic uses the Mongoose <code>Movies.find()</code> method to retrieve and isolate a Genre object that matches the <code>genre_name</code>.</p>
+This logic uses the Mongoose <code>Movies.find()</code> method to retrieve and isolate a Genre object that matches the <code>genreName</code>.</p>
 <pre><code class="language-js">
 app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/genres/:genreName&#x27;</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; { 
     <span class="hljs-keyword">try</span> {
         <span class="hljs-keyword">const</span> genreName = req.<span class="hljs-property">params</span>.<span class="hljs-property">genreName</span>;
         
         <span class="hljs-comment">// 1. Find ONE movie document that contains the matching genre name in its &#x27;genres&#x27; array</span>
-        <span class="hljs-keyword">let</span> movie = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Movies</span>.<span class="hljs-title function_">findOne</span>({ <span class="hljs-string">&#x27;genres.genre_name&#x27;</span>: genreName });
+        <span class="hljs-keyword">let</span> movie = <span class="hljs-keyword">await</span> <span class="hljs-title class_">Movies</span>.<span class="hljs-title function_">findOne</span>({ <span class="hljs-string">&#x27;genres.genreName&#x27;</span>: genreName });
         
         <span class="hljs-keyword">if</span> (!movie) {
             <span class="hljs-comment">// No movie document was found at all with this genre</span>
@@ -1424,7 +1424,7 @@ app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x2
 
         <span class="hljs-comment">// 2. Search the &#x27;genres&#x27; array of the found movie document for the specific genre object</span>
         <span class="hljs-keyword">const</span> genreDetails = movie.<span class="hljs-property">genres</span>.<span class="hljs-title function_">find</span>(
-            <span class="hljs-function"><span class="hljs-params">g</span> =&gt;</span> g.<span class="hljs-property">genre_name</span> === genreName
+            <span class="hljs-function"><span class="hljs-params">g</span> =&gt;</span> g.<span class="hljs-property">genreName</span> === genreName
         );
 
         <span class="hljs-keyword">if</span> (!genreDetails) {
@@ -1433,7 +1433,7 @@ app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x2
             <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Error: Genre data could not be extracted from the database.&#x27;</span>);
         }
 
-        <span class="hljs-comment">// 3. Respond with only the genre object (genre_name and genre_description)</span>
+        <span class="hljs-comment">// 3. Respond with only the genre object (genreName and genreDescription)</span>
         res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>(genreDetails);    
     
     } <span class="hljs-keyword">catch</span> (error) {
@@ -1460,12 +1460,12 @@ Standard specified fields and data types returned for an embedded Genre object.<
 </thead>
 <tbody>
 <tr>
-<td><strong>genre_name</strong></td>
+<td><strong>genreName</strong></td>
 <td>string</td>
 <td>The Genre name matching the query</td>
 </tr>
 <tr>
-<td><strong>genre_description</strong></td>
+<td><strong>genreDescription</strong></td>
 <td>string</td>
 <td>A concise description of the Genre</td>
 </tr>
@@ -1481,8 +1481,8 @@ Standard specified fields and data types returned for an embedded Genre object.<
 <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;genres&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
         <span class="hljs-punctuation">{</span>
-            <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Comedy&quot;</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Comedy film genre is designed to be humorous or amusing, intending to induce laughter. It usually features lighthearted plots and ends happily.&quot;</span>
+            <span class="hljs-attr">&quot;genreName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Comedy&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;genreDescription&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;The Comedy film genre is designed to be humorous or amusing, intending to induce laughter. It usually features lighthearted plots and ends happily.&quot;</span>
         <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
 
 <span class="hljs-punctuation">}</span>
@@ -1551,7 +1551,7 @@ app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x2
         }
         
         <span class="hljs-keyword">const</span> directorDetails = movie.<span class="hljs-property">directors</span>.<span class="hljs-title function_">find</span>(
-            <span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.<span class="hljs-property">director_name</span> === directorName
+            <span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.<span class="hljs-property">directorName</span> === directorName
         );
 
         <span class="hljs-keyword">if</span> (!directorDetails) {
@@ -1583,7 +1583,7 @@ Explains the fields and data types returned</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>director_name</strong></td>
+<td><strong>directorName</strong></td>
 <td>string</td>
 <td>The Director's full name</td>
 </tr>
@@ -1593,12 +1593,12 @@ Explains the fields and data types returned</p>
 <td>A brief biography of the Director</td>
 </tr>
 <tr>
-<td><strong>birth_date</strong></td>
+<td><strong>birthDate</strong></td>
 <td>date</td>
 <td>The Director's date of birth</td>
 </tr>
 <tr>
-<td><strong>death_date</strong></td>
+<td><strong>deathDate</strong></td>
 <td>date</td>
 <td>The Director's date of death, or field is absent</td>
 </tr>
@@ -1611,9 +1611,9 @@ Explains the fields and data types returned</p>
 </table>
 <p><strong><code>GET</code> Response JSON Example</strong></p>
 <pre><code class="language-json"><span class="hljs-punctuation">{</span>
-    <span class="hljs-attr">&quot;director_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Peter Doe&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;directorName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Peter Doe&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief biography of the director.&quot;</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1973-11-09&quot;</span><span class="hljs-punctuation">,</span> 
+    <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1973-11-09&quot;</span><span class="hljs-punctuation">,</span> 
 <span class="hljs-punctuation">}</span>
 
 </code></pre>
@@ -1677,21 +1677,21 @@ The parameters to find the User are passed via the URL path. Only the <code>user
 <td><code>&quot;myS3cur3P@ss!&quot;</code></td>
 </tr>
 <tr>
-<td>first_name</td>
+<td>firstName</td>
 <td>string</td>
 <td>no</td>
 <td><em>(none)</em></td>
 <td><code>&quot;Jane&quot;</code></td>
 </tr>
 <tr>
-<td>last_name</td>
+<td>lastName</td>
 <td>string</td>
 <td>no</td>
 <td><em>(none)</em></td>
 <td><code>&quot;Doe&quot;</code></td>
 </tr>
 <tr>
-<td>birth_date</td>
+<td>birthDate</td>
 <td>date</td>
 <td>no</td>
 <td>Date string format: <code>YYYY-MM-DD</code></td>
@@ -1722,7 +1722,7 @@ app.<span class="hljs-title function_">put</span>(<span class="hljs-string">&#x2
         <span class="hljs-keyword">let</span> oldUsername = req.<span class="hljs-property">params</span>.<span class="hljs-property">username</span>;
         <span class="hljs-keyword">const</span> body = req.<span class="hljs-property">body</span>;
         <span class="hljs-keyword">const</span> updates = {};
-        <span class="hljs-keyword">const</span> updateableFields = [ <span class="hljs-string">&#x27;username&#x27;</span>, <span class="hljs-string">&#x27;email&#x27;</span>, <span class="hljs-string">&#x27;password&#x27;</span>, <span class="hljs-string">&#x27;first_name&#x27;</span>, <span class="hljs-string">&#x27;last_name&#x27;</span>, <span class="hljs-string">&#x27;birth_date&#x27;</span> ];
+        <span class="hljs-keyword">const</span> updateableFields = [ <span class="hljs-string">&#x27;username&#x27;</span>, <span class="hljs-string">&#x27;email&#x27;</span>, <span class="hljs-string">&#x27;password&#x27;</span>, <span class="hljs-string">&#x27;firstName&#x27;</span>, <span class="hljs-string">&#x27;lastName&#x27;</span>, <span class="hljs-string">&#x27;birthDate&#x27;</span> ];
         
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> field <span class="hljs-keyword">of</span> updateableFields) {
             <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">hasOwnProperty</span>.<span class="hljs-title function_">call</span>(body, field) &amp;&amp; body[field] !== <span class="hljs-literal">null</span>) {
@@ -1803,7 +1803,7 @@ Details the specific fields returned</p>
     <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;65561a37c9510166299d6d3d&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;username&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;janeDoe525&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// Updated field</span>
     <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;animalL0ver@yahoo.com&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// Updated field</span>
-    <span class="hljs-attr">&quot;first_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;firstName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
         <span class="hljs-string">&quot;65561b8dc9510166299d6d3e&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-string">&quot;65561b8dc9510166299d6d3f&quot;</span>
@@ -1972,7 +1972,7 @@ The required data is passed via URL parameters (path variables). <strong>No Requ
 </tbody>
 </table>
 <p><strong>2. <code>DELETE</code> Request JavaScript</strong><br>
-This logic uses the Mongoose <code>Users.findOneAndUpdate()</code> method and the MongoDB <code>$pull</code> operator to remove a specific <strong>Movie ObjectId</strong> from the User's <code>favorite_movies</code> array.</p>
+This logic uses the Mongoose <code>Users.findOneAndUpdate()</code> method and the MongoDB <code>$pull</code> operator to remove a specific <strong>Movie ObjectId</strong> from the User's <code>favoriteMovies</code> array.</p>
 <pre><code class="language-js">
 app.<span class="hljs-title function_">delete</span>(<span class="hljs-string">&#x27;/users/:username/movies/:movieId&#x27;</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
     <span class="hljs-keyword">try</span> {
@@ -2004,10 +2004,10 @@ app.<span class="hljs-title function_">delete</span>(<span class="hljs-string">&
 <br>
 <p><strong>3. <code>DELETE</code> Response Status Code and Output</strong></p>
 <p><strong><code>200 OK</code> Response Body</strong><br>
-The server returns the full updated User document, now missing the specified Movie ID in the <code>favorite_movies</code> array.</p>
+The server returns the full updated User document, now missing the specified Movie ID in the <code>favoriteMovies</code> array.</p>
 <br>
 <p><strong>Response Body Fields Table</strong><br>
-Details on the updated <code>favorite_movies</code> array</p>
+Details on the updated <code>favoriteMovies</code> array</p>
 <table>
 <thead>
 <tr>
@@ -2023,7 +2023,7 @@ Details on the updated <code>favorite_movies</code> array</p>
 <td>The unique <strong>MongoDB ObjectId</strong> for the user</td>
 </tr>
 <tr>
-<td><strong>favorite_movies</strong></td>
+<td><strong>favoriteMovies</strong></td>
 <td>array of string</td>
 <td>The complete array of <strong>movie ObjectIds</strong>, with the specified Movie successfully removed</td>
 </tr>
@@ -2159,19 +2159,19 @@ Details on the updated <code>favorite_movies</code> array</p>
             <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Unique, validated email address.&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-attr">&quot;example&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;jane.doe@email.com&quot;</span>
         <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;first_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;firstName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
             <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
         <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;last_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;lastName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
             <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
         <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
             <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;date&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Use YYYY-MM-DD for date string format&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-attr">&quot;example&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1983-10-05&quot;</span>
         <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;favorite_movies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;favoriteMovies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
             <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;array&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;List of ObjectIds referencing Favorite Movies.&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-attr">&quot;items&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
@@ -2203,7 +2203,7 @@ Details on the updated <code>favorite_movies</code> array</p>
 This defines the structure of a complete Movie resource.   
 <br>
 <blockquote>
-<p>❗️ <strong>Note:</strong> The <code>actors</code>, <code>directors</code>, and <code>genres</code> fields reference the sub-schemas defined below, demonstrating the embedded nature of the data.</p>
+<p>❗️ <strong>Note:</strong> The <code>cast</code>, <code>directors</code>, and <code>genres</code> fields reference the sub-schemas defined below, demonstrating the embedded nature of the data.</p>
 </blockquote>
 </summary>
 <br>
@@ -2232,10 +2232,10 @@ This defines the structure of a complete Movie resource.
                 <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;List of genres (at least one required).&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;$ref&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;#/components/schemas/Genre&quot;</span> <span class="hljs-comment">// References the sub-schema below</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;actors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;cast&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;array&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;List of actors (at least one required).&quot;</span><span class="hljs-punctuation">,</span>
-                <span class="hljs-attr">&quot;$ref&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;#/components/schemas/Actor&quot;</span> <span class="hljs-comment">// References the sub-schema below</span>
+                <span class="hljs-attr">&quot;$ref&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;#/components/schemas/Cast&quot;</span> <span class="hljs-comment">// References the sub-schema below</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
             <span class="hljs-attr">&quot;directors&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;array&quot;</span><span class="hljs-punctuation">,</span>
@@ -2244,13 +2244,13 @@ This defines the structure of a complete Movie resource.
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
             <span class="hljs-comment">// --- End of Embedded Schemas Referenced Above ---</span>
             
-            <span class="hljs-attr">&quot;release_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;releaseDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;date&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Use YYYY-MM-DD for date string format&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;example&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1983-10-05&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;image_path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;imagePath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;example&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;standbyme.png&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
@@ -2266,7 +2266,7 @@ This defines the structure of a complete Movie resource.
             <span class="hljs-string">&quot;title&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-string">&quot;summary&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-string">&quot;genres&quot;</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-string">&quot;actors&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-string">&quot;cast&quot;</span><span class="hljs-punctuation">,</span>
             <span class="hljs-string">&quot;directors&quot;</span>
         <span class="hljs-punctuation">]</span>
     <span class="hljs-punctuation">}</span>
@@ -2276,7 +2276,7 @@ This defines the structure of a complete Movie resource.
 <br>
 <hr>
 </details>
-<h3 id="-3-embedded-sub-schemas-actor-director-genre">🪜 <strong>3. Embedded Sub-Schemas (Actor, Director, Genre)</strong></h3>
+<h3 id="-3-embedded-sub-schemas-cast-director-genre">🪜 <strong>3. Embedded Sub-Schemas (Cast, Director, Genre)</strong></h3>
 <p>These schemas define the structure of the objects nested within the Movie document.</p>
 <br>
 <details>
@@ -2291,16 +2291,16 @@ This defines the structure of a complete Movie resource.
         <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Structure for Genre objects embedded in Movie documents.&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-            <span class="hljs-attr">&quot;genre_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;genreName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;genre_description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;genreDescription&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
             <span class="hljs-punctuation">}</span>
         <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-            <span class="hljs-string">&quot;genre_name&quot;</span><span class="hljs-punctuation">,</span> 
-            <span class="hljs-string">&quot;genre_description&quot;</span>
+            <span class="hljs-string">&quot;genreName&quot;</span><span class="hljs-punctuation">,</span> 
+            <span class="hljs-string">&quot;genreDescription&quot;</span>
         <span class="hljs-punctuation">]</span>
     <span class="hljs-punctuation">}</span>
 <span class="hljs-punctuation">}</span>
@@ -2312,34 +2312,34 @@ This defines the structure of a complete Movie resource.
 <br>  
 <details>
   <summary>
-    <strong><span style="font-size: 1.2em;">Actor Sub-Schema</span></strong>  
+    <strong><span style="font-size: 1.2em;">Cast Sub-Schema</span></strong>  
     </summary><br>  
-<p><strong>Example: Actor Sub-Schema (MongoDB)</strong></p>
+<p><strong>Example: Cast Sub-Schema (MongoDB)</strong></p>
 <pre><code class="language-json">
 <span class="hljs-punctuation">{</span>
-    <span class="hljs-attr">&quot;Actor&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Cast&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
         <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
-        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Structure for Actor objects embedded in Movie documents.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Structure for Cast objects embedded in Movie documents.&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-            <span class="hljs-attr">&quot;actor_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;castName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;actor_bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;castBio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Birthdate (YYYY or YYYY-MM-DD format).&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;death_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;deathDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;date&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Death date (or field absent).&quot;</span>
             <span class="hljs-punctuation">}</span>
         <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-            <span class="hljs-string">&quot;actor_name&quot;</span><span class="hljs-punctuation">,</span> 
-            <span class="hljs-string">&quot;birth_date&quot;</span>
+            <span class="hljs-string">&quot;castName&quot;</span><span class="hljs-punctuation">,</span> 
+            <span class="hljs-string">&quot;birthDate&quot;</span>
         <span class="hljs-punctuation">]</span>
     <span class="hljs-punctuation">}</span>
 <span class="hljs-punctuation">}</span>
@@ -2360,25 +2360,25 @@ This defines the structure of a complete Movie resource.
         <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Structure for Director objects embedded in Movie documents.&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-            <span class="hljs-attr">&quot;director_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;directorName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
             <span class="hljs-attr">&quot;bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;birth_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;birthDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Birthdate (YYYY or YYYY-MM-DD format).&quot;</span>
             <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-            <span class="hljs-attr">&quot;death_date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;deathDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
                 <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;date&quot;</span><span class="hljs-punctuation">,</span>
                 <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Death date (or field absent).&quot;</span>
             <span class="hljs-punctuation">}</span>
         <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;required&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-            <span class="hljs-string">&quot;director_name&quot;</span><span class="hljs-punctuation">,</span> 
-            <span class="hljs-string">&quot;birth_date&quot;</span>
+            <span class="hljs-string">&quot;directorName&quot;</span><span class="hljs-punctuation">,</span> 
+            <span class="hljs-string">&quot;birthDate&quot;</span>
         <span class="hljs-punctuation">]</span>
     <span class="hljs-punctuation">}</span>
 <span class="hljs-punctuation">}</span>
