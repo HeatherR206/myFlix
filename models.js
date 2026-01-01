@@ -3,25 +3,25 @@ const bcryptjs = require('bcryptjs');
 const { Schema } = mongoose;
 
 const genreSchema = new Schema({
-    genre_name: {
+    genreName: {
         type: String,
         required: true
     },
-    genre_description: {
+    genreDescription: {
         type: String,
         required: true
     }
 }, { _id: false });
 
-const actorSchema = new Schema({
-    actor_name: {
+const castSchema = new Schema({
+    castName: {
         type: String,
         required: true
     },
-    actor_bio: {
+    castBio: {
         type: String
     },
-    birth_date: {
+    birthDate: {
         type: String,
         validate: {
             validator: function(v) {
@@ -34,14 +34,14 @@ const actorSchema = new Schema({
         },
         required: true
     },
-    death_date: {
+    deathDate: {
         type: Date,
         validate: {
             validator: function(v){
                 if (!v) {
                     return true;
                 }
-                const birthDate = new Date(this.birth_date);
+                const birthDate = new Date(this.birthDate);
 
                 if (isNaN(birthDate.valueOf())) { 
                     return true;
@@ -54,14 +54,14 @@ const actorSchema = new Schema({
 }, { _id: false });
 
 const directorSchema = new Schema({
-    director_name: {
+    directorName: {
         type: String,
         required: true
     },
     bio: {
         type: String
     },
-    birth_date: {
+    birthDate: {
         type: String,
         validate: {
             validator: function(v) {
@@ -74,14 +74,14 @@ const directorSchema = new Schema({
         },
         required: true
     },
-    death_date: {
+    deathDate: {
         type: Date,
         validate: {
             validator: function(v){
                 if (!v) {
                     return true;
                 }
-                const birthDate = new Date(this.birth_date);
+                const birthDate = new Date(this.birthDate);
 
                 if (isNaN(birthDate.valueOf())) { 
                     return true;
@@ -113,8 +113,8 @@ const movieSchema = new Schema({
             message: 'A movie must have at least one genre.'
         }
     },
-    actors: {
-        type: [actorSchema],
+    cast: {
+        type: [castSchema],
         required: true,
         validate: {
             validator: function(v) {
@@ -133,10 +133,10 @@ const movieSchema = new Schema({
             message: 'A movie must have at least one director.'
         }
     },   
-    release_date: {
+    releaseDate: {
         type: Date
     },
-    image_path: {
+    imagePath: {
         type: String
     },
     featured: {
@@ -171,18 +171,18 @@ const userSchema = new Schema({
         minlength: 10,
         select: false
     },
-    first_name: {
+    firstName: {
         type: String
     },
-    last_name: {
+    lastName: {
         type: String
     },
 
-    birth_date: {
+    birthDate: {
         type: Date,
     },
 
-    favorite_movies: {
+    favoriteMovies: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Movie'
