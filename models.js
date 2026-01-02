@@ -58,7 +58,7 @@ const directorSchema = new Schema({
         type: String,
         required: true
     },
-    bio: {
+    directorBio: {
         type: String
     },
     birthDate: {

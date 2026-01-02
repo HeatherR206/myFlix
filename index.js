@@ -41,13 +41,12 @@ let auth = require("./auth")(app);
 
 const passport = require("passport");
 
-app.get(`${API_URL}/`, async (req, res) => {
+app.get('/', async (req, res) => {
   res.send("Welcome to myFlix, a database for movie enthusiasts!");
 });
 
 // CREATE (Register new User)
-app.post(
-  `${API_URL}/users`,
+app.post('/users',
   [
     check("username")
       .trim()
@@ -111,8 +110,7 @@ app.post(
 );
 
 // CREATE (Add movie to user's "Favorite Movies")
-app.post(
-  `${API_URL}/users/:username/movies/:movieId`,
+app.post('/users/:username/movies/:movieId',
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -142,8 +140,7 @@ app.post(
 );
 
 // READ (Get all Users)
-app.get(
-  `${API_URL}/users`,
+app.get('/users',
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -154,11 +151,10 @@ app.get(
       res.status(500).send("Error: " + error.message);
     }
   }
-);
+)
 
 // READ (Get User by username)
-app.get(
-  `${API_URL}/users/:username`,
+app.get('/users/:username',
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -179,7 +175,7 @@ app.get(
 );
 
 // READ (Get all Movies)
-app.get(`${API_URL}/movies`, passport.authenticate('jwt', { session: false }), async (req, res) => {    
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {    
     if (!TMDB_API_KEY) {
         return res.status(500).send("TMDB_API_KEY is not configured on the server.");
     }
@@ -224,7 +220,7 @@ app.get(`${API_URL}/movies`, passport.authenticate('jwt', { session: false }), a
 });
 
 // READ (Get a Movie by title)
-app.get(`${API_URL}/movies/:title`, passport.authenticate('jwt', { session: false }), async (req, res) => { 
+app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
         let movie = await Movies.findOne({ title: req.params.title });
         res.status(200).json(movie);
@@ -236,7 +232,7 @@ app.get(`${API_URL}/movies/:title`, passport.authenticate('jwt', { session: fals
 });
 
 // READ (Get Genre by name)
-app.get(`${API_URL}/genres/:genreName`, passport.authenticate('jwt', { session: false }), async (req, res) => { 
+app.get('/genres/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
         const genreName = req.params.genreName;
         
@@ -263,7 +259,7 @@ app.get(`${API_URL}/genres/:genreName`, passport.authenticate('jwt', { session: 
 });
 
 // READ (Get Director by name)
-app.get(`${API_URL}/directors/:directorName`, passport.authenticate('jwt', { session: false }), async (req, res) => { 
+app.get('/directors/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
         const directorName = req.params.directorName;
 
@@ -290,7 +286,7 @@ app.get(`${API_URL}/directors/:directorName`, passport.authenticate('jwt', { ses
 });
 
 // UPDATE (Update User profile by username)
-app.put(`${API_URL}/users/:username`, 
+app.put('/users/:username', 
     passport.authenticate('jwt', { session: false }),
     [
         check('username').optional({ checkFalsy: true }).trim()
@@ -366,7 +362,7 @@ app.put(`${API_URL}/users/:username`,
 );
 
 // DELETE (Remove Movie from User's "Favorite Movies")
-app.delete(`${API_URL}/users/:username/movies/:movieId`, passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:username/movies/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const userName = req.params.username;
         const movieId = req.params.movieId;
@@ -390,7 +386,7 @@ app.delete(`${API_URL}/users/:username/movies/:movieId`, passport.authenticate('
 });
 
 // DELETE (Remove a User by username)
-app.delete(`${API_URL}/users/:username`, passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.delete('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         let user = await Users.findOneAndDelete({ username: req.params.username });        
         
