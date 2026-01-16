@@ -1,296 +1,374 @@
-<!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>&#x1f39e;&#xfe0f;  myFlix Movie API Repository</title>
-            <style>
-/* From extension vscode.github */
-/*---------------------------------------------------------------------------------------------
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>&#x1f39e;&#xfe0f; myFlix Movie API Repository</title>
+    <style>
+      /* From extension vscode.github */
+      /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-.vscode-dark img[src$=\#gh-light-mode-only],
-.vscode-light img[src$=\#gh-dark-mode-only],
-.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
-.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
-	display: none;
-}
+      .vscode-dark img[src$="\#gh-light-mode-only"],
+      .vscode-light img[src$="\#gh-dark-mode-only"],
+      .vscode-high-contrast:not(.vscode-high-contrast-light)
+        img[src$="\#gh-light-mode-only"],
+      .vscode-high-contrast-light img[src$="\#gh-dark-mode-only"] {
+        display: none;
+      }
+    </style>
 
-</style>
-            
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
-<style>
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
-                font-size: 14px;
-                line-height: 1.6;
-            }
-        </style>
-        <style>
-.task-list-item {
-    list-style-type: none;
-}
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css"
+    />
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui,
+          "Ubuntu", "Droid Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+    </style>
+    <style>
+      .task-list-item {
+        list-style-type: none;
+      }
 
-.task-list-item-checkbox {
-    margin-left: -20px;
-    vertical-align: middle;
-    pointer-events: none;
-}
-</style>
-<style>
-:root {
-  --color-note: #0969da;
-  --color-tip: #1a7f37;
-  --color-warning: #9a6700;
-  --color-severe: #bc4c00;
-  --color-caution: #d1242f;
-  --color-important: #8250df;
-}
+      .task-list-item-checkbox {
+        margin-left: -20px;
+        vertical-align: middle;
+        pointer-events: none;
+      }
+    </style>
+    <style>
+      :root {
+        --color-note: #0969da;
+        --color-tip: #1a7f37;
+        --color-warning: #9a6700;
+        --color-severe: #bc4c00;
+        --color-caution: #d1242f;
+        --color-important: #8250df;
+      }
+    </style>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-note: #2f81f7;
+          --color-tip: #3fb950;
+          --color-warning: #d29922;
+          --color-severe: #db6d28;
+          --color-caution: #f85149;
+          --color-important: #a371f7;
+        }
+      }
+    </style>
+    <style>
+      .markdown-alert {
+        padding: 0.5rem 1rem;
+        margin-bottom: 16px;
+        color: inherit;
+        border-left: 0.25em solid #888;
+      }
 
-</style>
-<style>
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-note: #2f81f7;
-    --color-tip: #3fb950;
-    --color-warning: #d29922;
-    --color-severe: #db6d28;
-    --color-caution: #f85149;
-    --color-important: #a371f7;
-  }
-}
+      .markdown-alert > :first-child {
+        margin-top: 0;
+      }
 
-</style>
-<style>
-.markdown-alert {
-  padding: 0.5rem 1rem;
-  margin-bottom: 16px;
-  color: inherit;
-  border-left: .25em solid #888;
-}
+      .markdown-alert > :last-child {
+        margin-bottom: 0;
+      }
 
-.markdown-alert>:first-child {
-  margin-top: 0
-}
+      .markdown-alert .markdown-alert-title {
+        display: flex;
+        font-weight: 500;
+        align-items: center;
+        line-height: 1;
+      }
 
-.markdown-alert>:last-child {
-  margin-bottom: 0
-}
+      .markdown-alert .markdown-alert-title .octicon {
+        margin-right: 0.5rem;
+        display: inline-block;
+        overflow: visible !important;
+        vertical-align: text-bottom;
+        fill: currentColor;
+      }
 
-.markdown-alert .markdown-alert-title {
-  display: flex;
-  font-weight: 500;
-  align-items: center;
-  line-height: 1
-}
+      .markdown-alert.markdown-alert-note {
+        border-left-color: var(--color-note);
+      }
 
-.markdown-alert .markdown-alert-title .octicon {
-  margin-right: 0.5rem;
-  display: inline-block;
-  overflow: visible !important;
-  vertical-align: text-bottom;
-  fill: currentColor;
-}
+      .markdown-alert.markdown-alert-note .markdown-alert-title {
+        color: var(--color-note);
+      }
 
-.markdown-alert.markdown-alert-note {
-  border-left-color: var(--color-note);
-}
+      .markdown-alert.markdown-alert-important {
+        border-left-color: var(--color-important);
+      }
 
-.markdown-alert.markdown-alert-note .markdown-alert-title {
-  color: var(--color-note);
-}
+      .markdown-alert.markdown-alert-important .markdown-alert-title {
+        color: var(--color-important);
+      }
 
-.markdown-alert.markdown-alert-important {
-  border-left-color: var(--color-important);
-}
+      .markdown-alert.markdown-alert-warning {
+        border-left-color: var(--color-warning);
+      }
 
-.markdown-alert.markdown-alert-important .markdown-alert-title {
-  color: var(--color-important);
-}
+      .markdown-alert.markdown-alert-warning .markdown-alert-title {
+        color: var(--color-warning);
+      }
 
-.markdown-alert.markdown-alert-warning {
-  border-left-color: var(--color-warning);
-}
+      .markdown-alert.markdown-alert-tip {
+        border-left-color: var(--color-tip);
+      }
 
-.markdown-alert.markdown-alert-warning .markdown-alert-title {
-  color: var(--color-warning);
-}
+      .markdown-alert.markdown-alert-tip .markdown-alert-title {
+        color: var(--color-tip);
+      }
 
-.markdown-alert.markdown-alert-tip {
-  border-left-color: var(--color-tip);
-}
+      .markdown-alert.markdown-alert-caution {
+        border-left-color: var(--color-caution);
+      }
 
-.markdown-alert.markdown-alert-tip .markdown-alert-title {
-  color: var(--color-tip);
-}
-
-.markdown-alert.markdown-alert-caution {
-  border-left-color: var(--color-caution);
-}
-
-.markdown-alert.markdown-alert-caution .markdown-alert-title {
-  color: var(--color-caution);
-}
-
-</style>
-        
-        </head>
-        <body class="vscode-body vscode-light">
-            <h1 id="️--myflix-movie-api-repository">🎞️  myFlix Movie API Repository</h1>
-<p>The myFlix API is a <a href="https://restfulapi.net/"><strong>RESTful API</strong></a> powered by <strong>JavaScript</strong> running on the <strong>Node.js runtime environment (RTE)</strong> and utilizing <strong>Express</strong> to handle routing and middleware.</p>
-<h2 id="urls"><strong>URLs</strong></h2>
-<p><strong>Live API URL: <a href="https://my-flix-movies-0d84af3d4373.herokuapp.com/">https://my-flix-movies-0d84af3d4373.herokuapp.com/</a></strong></p>
-<p><strong>Heroku Git URL: <a href="https://git.heroku.com/my-flix-movies.git">https://git.heroku.com/my-flix-movies.git</a></strong></p>
-<p><strong>GitHub repo URL: <a href="https://github.com/HeatherR206/myFlix.git">https://github.com/HeatherR206/myFlix.git</a></strong></p>
-<p><strong>Local URL: <a href="http://localhost:8080/movies">http://localhost:8080/movies</a></strong></p>
-<h2 id="technical-specs"><strong>TECHNICAL SPECS</strong></h2>
-<ul>
-<li>
-<p><strong>RESTful API</strong> architecture utilizing the <strong>Node.js runtime environment (RTE)</strong></p>
-</li>
-<li>
-<p><strong>Express.js</strong> framework: server-side routing and handling</p>
-</li>
-<li>
-<p><strong>MongoDB Atlas</strong>, a cloud-based NoSQL database, with <strong>Mongoose</strong> schema-based data modeling logic</p>
-</li>
-<li>
-<p><strong>JSON objects:</strong> the data format returned for all HTTP request responses.</p>
-</li>
-<li>
-<p><strong>Heroku:</strong> host for API deployment</p>
-</li>
-<li>
-<p><strong>Passport</strong> authentication for password validation and <strong>JSON Web Tokens (JWT)</strong> for user authorization.</p>
-</li>
-<li>
-<p><strong>Data Security:</strong></p>
-<ul>
-<li><strong>CORS:</strong> manages all domain origin access</li>
-<li><strong>express-validator:</strong> endpoint data validation (middleware)</li>
-<li><strong>bcrypt:</strong> password hashing (middleware)</li>
-<li><strong>environment variables:</strong> securely manages sensitive configuration data</li>
-</ul>
-</li>
-<li>
-<p><strong>Morgan:</strong> logging middleware</p>
-</li>
-<li>
-<p><strong>Postman:</strong> testing and debugging endpoints</p>
-</li>
-</ul>
-<h2 id="set-up"><strong>SET UP</strong></h2>
-<ol>
-<li>
-<p>Determine hosting sites for your API and database.</p>
-</li>
-<li>
-<p>Clone myFlix repository</p>
-</li>
-<li>
-<p>Install <strong>MongoDB Atlas</strong> (for cloud-based server) or <strong>MongoDB Community Server</strong> (for local server)</p>
-</li>
-<li>
-<p><strong>Install Dependencies</strong> in your <strong>project's root directory</strong>.<br>
-<em>If bulk installing dependencies, separate each with a space</em></p>
-</li>
-</ol>
-<pre><code>   npm install --save &lt;dependency_name&gt;
+      .markdown-alert.markdown-alert-caution .markdown-alert-title {
+        color: var(--color-caution);
+      }
+    </style>
+  </head>
+  <body class="vscode-body vscode-light">
+    <h1 id="️--myflix-movie-api-repository">🎞️ myFlix Movie API Repository</h1>
+    <p>
+      The myFlix API is a
+      <a href="https://restfulapi.net/"><strong>RESTful API</strong></a> powered
+      by <strong>JavaScript</strong> running on the
+      <strong>Node.js runtime environment (RTE)</strong> and utilizing
+      <strong>Express</strong> to handle routing and middleware.
+    </p>
+    <h2 id="urls"><strong>URLs</strong></h2>
+    <p>
+      <strong
+        >Live API URL:
+        <a href="https://my-flix-movies-0d84af3d4373.herokuapp.com/"
+          >https://my-flix-movies-0d84af3d4373.herokuapp.com/</a
+        ></strong
+      >
+    </p>
+    <p>
+      <strong
+        >Heroku Git URL:
+        <a href="https://git.heroku.com/my-flix-movies.git"
+          >https://git.heroku.com/my-flix-movies.git</a
+        ></strong
+      >
+    </p>
+    <p>
+      <strong
+        >GitHub repo URL:
+        <a href="https://github.com/HeatherR206/myFlix.git"
+          >https://github.com/HeatherR206/myFlix.git</a
+        ></strong
+      >
+    </p>
+    <p>
+      <strong
+        >Local URL:
+        <a href="http://localhost:8080/movies"
+          >http://localhost:8080/movies</a
+        ></strong
+      >
+    </p>
+    <h2 id="technical-specs"><strong>TECHNICAL SPECS</strong></h2>
+    <ul>
+      <li>
+        <p>
+          <strong>RESTful API</strong> architecture utilizing the
+          <strong>Node.js runtime environment (RTE)</strong>
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong>Express.js</strong> framework: server-side routing and
+          handling
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong>MongoDB Atlas</strong>, a cloud-based NoSQL database, with
+          <strong>Mongoose</strong> schema-based data modeling logic
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong>JSON objects:</strong> the data format returned for all HTTP
+          request responses.
+        </p>
+      </li>
+      <li>
+        <p><strong>Heroku:</strong> host for API deployment</p>
+      </li>
+      <li>
+        <p>
+          <strong>Passport</strong> authentication for password validation and
+          <strong>JSON Web Tokens (JWT)</strong> for user authorization.
+        </p>
+      </li>
+      <li>
+        <p><strong>Data Security:</strong></p>
+        <ul>
+          <li><strong>CORS:</strong> manages all domain origin access</li>
+          <li>
+            <strong>express-validator:</strong> endpoint data validation
+            (middleware)
+          </li>
+          <li><strong>bcrypt:</strong> password hashing (middleware)</li>
+          <li>
+            <strong>environment variables:</strong> securely manages sensitive
+            configuration data
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p><strong>Morgan:</strong> logging middleware</p>
+      </li>
+      <li>
+        <p><strong>Postman:</strong> testing and debugging endpoints</p>
+      </li>
+    </ul>
+    <h2 id="set-up"><strong>SET UP</strong></h2>
+    <ol>
+      <li>
+        <p>Determine hosting sites for your API and database.</p>
+      </li>
+      <li>
+        <p>Clone myFlix repository</p>
+      </li>
+      <li>
+        <p>
+          Install <strong>MongoDB Atlas</strong> (for cloud-based server) or
+          <strong>MongoDB Community Server</strong> (for local server)
+        </p>
+      </li>
+      <li>
+        <p>
+          <strong>Install Dependencies</strong> in your
+          <strong>project's root directory</strong>.<br />
+          <em>If bulk installing dependencies, separate each with a space</em>
+        </p>
+      </li>
+    </ol>
+    <pre><code>   npm install --save &lt;dependency_name&gt;
 </code></pre>
-<h2 id="api-endpoints"><strong>API ENDPOINTS</strong></h2>
-<table>
-<thead>
-<tr>
-<th>HTTP <br> Request</th>
-<th>Endpoint</th>
-<th>Example</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>GET</strong></td>
-<td><code>/movies</code></td>
-<td><code>/movies</code></td>
-<td>Get all movies</td>
-</tr>
-<tr>
-<td><strong>GET</strong></td>
-<td><code>/movies/:title</code></td>
-<td><code>/movies/Die%20Hard</code></td>
-<td>Get a single movie by title</td>
-</tr>
-<tr>
-<td><strong>GET</strong></td>
-<td><code>/genres/:genreName</code></td>
-<td><code>/genres/Comedy</code></td>
-<td>Get genre info by name</td>
-</tr>
-<tr>
-<td><strong>GET</strong></td>
-<td><code>/directors/:directorName</code></td>
-<td><code>/directors/Rob%20Reiner</code></td>
-<td>Get director data by name</td>
-</tr>
-<tr>
-<td><strong>POST</strong></td>
-<td><code>/users</code></td>
-<td><code>/users</code></td>
-<td>Register a new user</td>
-</tr>
-<tr>
-<td><strong>POST</strong></td>
-<td><code>/users/:username/movies/:movieId</code></td>
-<td><code>/users/testuser/movies/65561b8dc9510166299d6d3e</code></td>
-<td>Add movie to user's &quot;Favorite Movies&quot;</td>
-</tr>
-<tr>
-<td><strong>POST</strong></td>
-<td><code>/login</code></td>
-<td><code>/login</code></td>
-<td>Generates required JWT token to access database</td>
-</tr>
-<tr>
-<td><strong>PUT</strong></td>
-<td><code>/users/:username</code></td>
-<td><code>/users/sampleuser</code></td>
-<td>Update user profile by username</td>
-</tr>
-<tr>
-<td><strong>DELETE</strong></td>
-<td><code>/users/:username/movies/:movieId</code></td>
-<td><code>/users/testuser/movies/65561b8dc9510166299d6d3e</code></td>
-<td>Remove movie from user's &quot;Favorite Movies&quot;</td>
-</tr>
-<tr>
-<td><strong>DELETE</strong></td>
-<td><code>/users/:username</code></td>
-<td><code>/users/sampleuser</code></td>
-<td>Remove a registered user by username</td>
-</tr>
-</tbody>
-</table>
-<h3 id="token-based-authentication"><strong>TOKEN-BASED AUTHENTICATION</strong></h3>
-<ul>
-<li>All endpoints, with the exception of <code>POST /login</code> and <code>POST /users</code>, require a valid <strong>JSON Web Token (JWT)</strong> to access the database</li>
-<li>A unique token is obtained with a successful login</li>
-<li>Add the token to your request header (Key : Value):</li>
-</ul>
-<pre><code>    Authorization : Bearer &lt;user_token&gt;   
+    <h2 id="api-endpoints"><strong>API ENDPOINTS</strong></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>
+            HTTP <br />
+            Request
+          </th>
+          <th>Endpoint</th>
+          <th>Example</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>GET</strong></td>
+          <td><code>/movies</code></td>
+          <td><code>/movies</code></td>
+          <td>Get all movies</td>
+        </tr>
+        <tr>
+          <td><strong>GET</strong></td>
+          <td><code>/movies/:title</code></td>
+          <td><code>/movies/Die%20Hard</code></td>
+          <td>Get a single movie by title</td>
+        </tr>
+        <tr>
+          <td><strong>GET</strong></td>
+          <td><code>/genres/:genreName</code></td>
+          <td><code>/genres/Comedy</code></td>
+          <td>Get genre info by name</td>
+        </tr>
+        <tr>
+          <td><strong>GET</strong></td>
+          <td><code>/directors/:directorName</code></td>
+          <td><code>/directors/Rob%20Reiner</code></td>
+          <td>Get director data by name</td>
+        </tr>
+        <tr>
+          <td><strong>POST</strong></td>
+          <td><code>/users</code></td>
+          <td><code>/users</code></td>
+          <td>Register a new user</td>
+        </tr>
+        <tr>
+          <td><strong>POST</strong></td>
+          <td><code>/users/:username/movies/:movieId</code></td>
+          <td><code>/users/testuser/movies/65561b8dc9510166299d6d3e</code></td>
+          <td>Add movie to user's &quot;Favorite Movies&quot;</td>
+        </tr>
+        <tr>
+          <td><strong>POST</strong></td>
+          <td><code>/login</code></td>
+          <td><code>/login</code></td>
+          <td>Generates required JWT token to access database</td>
+        </tr>
+        <tr>
+          <td><strong>PUT</strong></td>
+          <td><code>/users/:username</code></td>
+          <td><code>/users/sampleuser</code></td>
+          <td>Update user profile by username</td>
+        </tr>
+        <tr>
+          <td><strong>DELETE</strong></td>
+          <td><code>/users/:username/movies/:movieId</code></td>
+          <td><code>/users/testuser/movies/65561b8dc9510166299d6d3e</code></td>
+          <td>Remove movie from user's &quot;Favorite Movies&quot;</td>
+        </tr>
+        <tr>
+          <td><strong>DELETE</strong></td>
+          <td><code>/users/:username</code></td>
+          <td><code>/users/sampleuser</code></td>
+          <td>Remove a registered user by username</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 id="token-based-authentication">
+      <strong>TOKEN-BASED AUTHENTICATION</strong>
+    </h3>
+    <ul>
+      <li>
+        All endpoints, with the exception of <code>POST /login</code> and
+        <code>POST /users</code>, require a valid
+        <strong>JSON Web Token (JWT)</strong> to access the database
+      </li>
+      <li>A unique token is obtained with a successful login</li>
+      <li>Add the token to your request header (Key : Value):</li>
+    </ul>
+    <pre><code>    Authorization : Bearer &lt;user_token&gt;   
 </code></pre>
-<h2 id="example-requests"><strong>EXAMPLE REQUESTS</strong></h2>
-<p><strong>Response Body: <code>POST /users</code></strong></p>
-<pre><code class="language-json">    <span class="hljs-punctuation">{</span>
+    <h2 id="example-requests"><strong>EXAMPLE REQUESTS</strong></h2>
+    <p>
+      <strong>Response Body: <code>POST /users</code></strong>
+    </p>
+    <pre><code class="language-json">    <span class="hljs-punctuation">{</span>
         <span class="hljs-attr">&quot;username&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane_Doe525&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;myS3cur3P@ss!&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;jane@example.com&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;firstName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Jane&quot;</span>
     <span class="hljs-punctuation">}</span>
 </code></pre>
-<p><strong>HTTP JavaScript: <code>POST /users</code></strong></p>
-<pre><code class="language-js">
+    <p>
+      <strong>HTTP JavaScript: <code>POST /users</code></strong>
+    </p>
+    <pre><code class="language-js">
     app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/users&#x27;</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
         <span class="hljs-keyword">try</span> { 
             <span class="hljs-comment">// Checks if username already exists (a Mongoose validation check) </span>
@@ -322,9 +400,13 @@
     });
 
 </code></pre>
-<h2 id="example-responses"><strong>EXAMPLE RESPONSES</strong></h2>
-<p><strong>✅ Response Success: <code>GET /directors/:directorName</code></strong></p>
-<pre><code class="language-json">
+    <h2 id="example-responses"><strong>EXAMPLE RESPONSES</strong></h2>
+    <p>
+      <strong
+        >✅ Response Success: <code>GET /directors/:directorName</code></strong
+      >
+    </p>
+    <pre><code class="language-json">
     <span class="hljs-punctuation">{</span>
         <span class="hljs-attr">&quot;directorName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Peter Doe&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-attr">&quot;bio&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;A brief biography of the director.&quot;</span><span class="hljs-punctuation">,</span>
@@ -332,11 +414,12 @@
     <span class="hljs-punctuation">}</span>
 
 </code></pre>
-<p><strong>❌ Response Error: <code>GET /directors/:directorName</code></strong></p>
-<pre><code>    message: &quot;Error: no data in the database for this Director: Muhammad Ali.&quot;
+    <p>
+      <strong
+        >❌ Response Error: <code>GET /directors/:directorName</code></strong
+      >
+    </p>
+    <pre><code>    message: &quot;Error: no data in the database for this Director: Muhammad Ali.&quot;
 </code></pre>
-
-            
-            
-        </body>
-        </html>
+  </body>
+</html>
