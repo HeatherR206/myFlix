@@ -1,9 +1,5 @@
 require('dotenv').config()
 
-const TMDB_API_KEY = process.env.TMDB_API_KEY;
-
-const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-
 const path = require('path'),
     express = require('express'),
 
@@ -175,44 +171,10 @@ app.get('/users/:username',
 );
 
 // READ (Get all Movies)
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {    
-    if (!TMDB_API_KEY) {
-        return res.status(500).send("TMDB_API_KEY is not configured on the server.");
-    }
-
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => { 
     try {
-        let movies = await Movies.find();
-
-        const moviesWithPostersPromises = movies.map(async (movie) => {
-            const movieTitle = movie.title;
-            const encodedTitle = encodeURIComponent(movieTitle);
-            const tmdbSearchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodedTitle}`;
-
-            let tmdbPosterUrl = null;
-
-            try {
-                const tmdbResponse = await fetch(tmdbSearchUrl);
-                const tmdbData = await tmdbResponse.json();
-
-                if (tmdbData.results && tmdbData.results.length > 0) {
-                    const posterPath = tmdbData.results[0].poster_path;
-                    if (posterPath) {
-                        tmdbPosterUrl = `${TMDB_IMAGE_BASE_URL}${posterPath}`;
-                    }
-                }
-            } catch (tmdbError) {
-                console.warn(`Could not fetch poster for ${movieTitle}:`, tmdbError.message);
-            }
-
-            const movieObject = movie.toObject();
-            movieObject.imagePath = tmdbPosterUrl || movieObject.imagePath;
-            return movieObject;
-        });
-
-        const moviesWithPosters = await Promise.all(moviesWithPostersPromises);
-
-        res.status(200).json(moviesWithPosters);
-
+        const movies = await Movies.find();
+        res.status(200).json(movies);
     } catch (error) {
         console.error("Error retrieving movies from Mongoose:", error);
         res.status(500).send("Error retrieving movies: " + error);
@@ -333,10 +295,10 @@ app.put('/users/:username',
             }
 
             if (updates.username && updates.username !== oldUsername) {
-                let existingUser = await Users.findOneAndUpdate({ username: updates.username });
+                let existingUser = await Users.findOne({ username: updates.username });
                 if (existingUser) {
                     return res.status(409).json({
-                        message: updates.username + 'already exists',
+                        message: updates.username + ' already exists',
                         field: 'username'
                     });
                 }
