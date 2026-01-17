@@ -28,16 +28,23 @@ app.use(express.urlencoded({ extended: true }));
 let allowedOrigins = [
     'http://localhost:1234',
     'https://myflixclient-five.vercel.app',
+    'https://myflixclient-m54elkfte-heatherr206s-projects.vercel.app',
+    'https://myflixclient-git-main-heatherr206s-projects.vercel.app'
 ];
 
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
+
+        const isWhitelisted = allowedOrigins.indexOf(origin) !== -1;
+        const isVercelPreview = origin.endsWith('.vercel.app');
+
+        if (isWhitelisted || isVercelPreview) {
+            return callback(null, true);
+        } else {
             let message = 'The CORS policy for this application does not allow access from origin ' + origin;
             return callback(new Error(message), false);
         }
-        return callback(null, true);
     }
 }));
 
