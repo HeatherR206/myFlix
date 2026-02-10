@@ -61,28 +61,28 @@ app.post(
   '/users',
   [
     check('username')
-      .trim()
-      .isLength({ min: 6 })
-      .withMessage('Username must be at least 6 characters long.')
-      .matches(/^[a-zA-Z0-9_-]+$/)
-      .withMessage(
-        'Username can only contain letters, numbers, hyphens, and underscores.'
-      ),
+        .trim()
+        .isLength({ min: 6 })
+        .withMessage('Username must be at least 6 characters long.')
+        .matches(/^[a-zA-Z0-9_-]+$/)
+        .withMessage(
+            'Username can only contain letters, numbers, hyphens, and underscores.'
+        ),
     check('password')
-      .notEmpty()
-      .withMessage('Password is required.')
-      .isLength({ min: 10 })
-      .withMessage('Password must be at least 10 characters long.'),
+        .notEmpty()
+        .withMessage('Password is required.')
+        .isLength({ min: 10 })
+        .withMessage('Password must be at least 10 characters long.'),
     check('email')
-      .trim()
-      .isEmail()
-      .withMessage('Email does not appear to be valid.'),
-    check('firstName', 'First name is required.').optional().notEmpty().trim(),
-    check('lastName', 'Last name is required.').optional().notEmpty().trim(),
+        .trim()
+        .isEmail()
+        .withMessage('Email does not appear to be valid.'),
+    check('firstName').trim(),
+    check('lastName').trim(),
     check('birthDate', 'Birth date must be a valid date (YYYY-MM-DD) format')
-      .optional()
-      .isDate(),
-  ],
+        .optional({ checkFalsy: true })
+        .isDate(),
+    ],
   async (req, res) => {
     try {
       let errors = validationResult(req);
