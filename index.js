@@ -53,13 +53,13 @@ const passport = require('passport');
 require('./passport');
 
 app.get('/', async (req, res) => {
-  res.send('Welcome to myFlix, a database for movie enthusiasts!');
+    res.send('Welcome to myFlix, a database for movie enthusiasts!');
 });
 
 // CREATE (Register new User)
 app.post(
-  '/users',
-  [
+    '/users',
+    [
     check('username')
         .trim()
         .isLength({ min: 6 })
@@ -110,7 +110,9 @@ app.post(
         favoriteMovies: req.body.favoriteMovies,
       });
 
-      res.status(201).json(newUser);
+      const userResponse = newUser.toObject();
+      delete userResponse.password;
+      res.status(201).json(userResponse);
     } catch (error) {
       console.error(
         `[${new Date().toISOString()}] Server Error on POST /users:`,
@@ -123,48 +125,36 @@ app.post(
 
 // CREATE (Add movie to user's 'Favorite Movies')
 app.post(
-  '/users/:username/movies/:movieId',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    try {
-      const userName = req.params.username;
-      let movieId = req.params.movieId;
+    '/users/:username/movies/:movieId',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+        try {
+            if (req.user.username !== req.params.username) {
+                return res.status(401).send('Permission denied.');
+            }
+            const userName = req.params.username;
+            let movieId = req.params.movieId;
 
-      movieId = new mongoose.Types.ObjectId(movieId);
+            movieId = new mongoose.Types.ObjectId(movieId);
 
-      let updatedUser = await Users.findOneAndUpdate(
-        { username: userName },
-        { $push: { favoriteMovies: movieId } },
-        { new: true }
-      );
+            let updatedUser = await Users.findOneAndUpdate(
+                { username: userName },
+                { $push: { favoriteMovies: movieId } },
+                { new: true }
+            ).select('-password');
 
-      if (!updatedUser) {
-        return res
-          .status(404)
-          .send(`Error: User ${userName} not found in database.`);
-      }
+            if (!updatedUser) {
+                return res
+                .status(404)
+                .send(`Error: User ${userName} not found in database.`);
+            }
 
-      res.status(201).json(updatedUser);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error adding movie: ' + error);
+            res.status(201).json(updatedUser);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error adding movie: ' + error);
+        }
     }
-  }
-);
-
-// READ (Get all Users)
-app.get(
-  '/users',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    try {
-      let users = await Users.find();
-      res.status(200).json(users);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error: ' + error.message);
-    }
-  }
 );
 
 // READ (Get User by username)
@@ -173,7 +163,11 @@ app.get(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
-      let user = await Users.findOne({ username: req.params.username });
+        if (req.user.username !== req.params.username) {
+            return res.status(401).send('Permission denied: You can only view your own profile data.')
+        }
+      let user = await Users.findOne({ username: req.params.username })
+        .select('-password');
 
       if (!user) {
         return res
@@ -389,7 +383,7 @@ app.put(
         { username: oldUsername },
         { $set: updates },
         { new: true }
-      );
+      ).select('-password');
 
       if (!updatedUser) {
         return res.status(404).send('Error: User not found in database');
@@ -408,68 +402,72 @@ app.put(
 
 // DELETE (Remove Movie from User's 'Favorite Movies')
 app.delete(
-  '/users/:username/movies/:movieId',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    try {
-      const userName = req.params.username;
-      const movieId = req.params.movieId;
+    '/users/:username/movies/:movieId',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+        try {
+            if (req.user.username !== req.params.username) {
+                return res.status(401).send('Permission denied.');
+            }
+        const userName = req.params.username;
+        const movieId = req.params.movieId;
 
-      let updatedUser = await Users.findOneAndUpdate(
-        { username: userName },
-        { $pull: { favoriteMovies: movieId } },
-        { new: true }
-      );
+        let updatedUser = await Users.findOneAndUpdate(
+            { username: userName },
+            { $pull: { favoriteMovies: movieId } },
+            { new: true }
+        ).select('-password');
 
-      if (!updatedUser) {
-        return res
-          .status(404)
-          .send(`Error: User ${userName} not found in database.`);
-      }
+        if (!updatedUser) {
+            return res.status(404).send(`Error: User ${userName} not found in database.`);
+        }
 
-      res
-        .status(200)
-        .send(
-          `Movie ID '${movieId}' was removed from ${userName}'s 'Favorite Movies' array.`
-        );
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error: ' + error);
+        res
+            .status(200)
+            .send(
+            `Movie ID '${movieId}' was removed from ${userName}'s 'Favorite Movies' array.`
+            );
+        } catch (error) {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+        }
     }
-  }
 );
 
 // DELETE (Remove a User by username)
 app.delete(
-  '/users/:username',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    try {
-      let user = await Users.findOneAndDelete({
-        username: req.params.username,
-      });
+    '/users/:username',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+        try {
+            if (req.user.username !== req.params.username) {
+                return res.status(401).send('Permission denied: You can only delete your own account.')
+            }
+            let user = await Users.findOneAndDelete({
+                username: req.params.username,
+            });
 
-      if (!user) {
-        return res
-          .status(404)
-          .send(req.params.username + ' was not found in database.');
-      }
+        if (!user) {
+            return res
+            .status(404)
+            .send(req.params.username + ' was not found in database.');
+        }
 
-      res.status(200).send(req.params.username + ' was deleted from database.');
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error: ' + error);
+        res.status(200).send(req.params.username + ' was deleted from database.');
+        } catch (error) {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+        }
     }
-  }
 );
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
 });
 
 const port = process.env.PORT || 8080;
 
 app.listen(port, '0.0.0.0', () => {
-  console.log('Listening on Port ' + port);
+    console.log('Listening on Port ' + port);
 });
