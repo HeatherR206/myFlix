@@ -100,6 +100,7 @@ app.post(
           field: 'username',
         });
       }
+      
       let newUser = await Users.create({
         username: req.body.username,
         email: req.body.email,
@@ -331,7 +332,7 @@ app.put(
             .send('Permission denied: You can only modify your own account.');
       }
 
-      if (req.params.username === 'GuestUser') {
+      if (req.params.username === 'myFlixGuest') {
             return res.status(403).send('Action Forbidden: The Guest account is for demo purposes. It cannot be modified.');
         }
 
@@ -448,7 +449,7 @@ app.delete(
                 return res.status(401).send('Permission denied: You can only delete your own account.')
             }
 
-            if (req.params.username === 'GuestUser') {
+            if (req.params.username === 'myFlixGuest') {
                 return res.status(403).send('Action Forbidden: The Guest account is for demo purposes. It cannot be deleted.');
         }
             let user = await Users.findOneAndDelete({
