@@ -327,9 +327,13 @@ app.put(
     try {
       if (req.user.username !== req.params.username) {
         return res
-          .status(401)
-          .send('Permission denied: You can only modify your own account.');
+            .status(401)
+            .send('Permission denied: You can only modify your own account.');
       }
+
+      if (req.params.username === 'GuestUser') {
+            return res.status(403).send('Action Forbidden: The Guest account is for demo purposes. It cannot be modified.');
+        }
 
       let errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -443,6 +447,10 @@ app.delete(
             if (req.user.username !== req.params.username) {
                 return res.status(401).send('Permission denied: You can only delete your own account.')
             }
+
+            if (req.params.username === 'GuestUser') {
+                return res.status(403).send('Action Forbidden: The Guest account is for demo purposes. It cannot be deleted.');
+        }
             let user = await Users.findOneAndDelete({
                 username: req.params.username,
             });
