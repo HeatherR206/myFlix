@@ -323,7 +323,7 @@ app.put(
     check('birthDate', 'Birth date must be a valid date (YYYY-MM-DD) format')
       .optional()
       .isDate(),
-  ],
+  ], 
   async (req, res) => {
     try {
       if (req.user.username !== req.params.username) {
